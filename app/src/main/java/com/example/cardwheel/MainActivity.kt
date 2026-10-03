@@ -7,6 +7,7 @@ import android.view.View
 import android.view.LayoutInflater
 import android.widget.TextView
 import androidx.viewpager2.widget.ViewPager2
+import androidx.recyclerview.widget.RecyclerView
 import androidx.activity.result.contract.ActivityResultContracts
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
@@ -17,6 +18,8 @@ class MainActivity : BaseActivity() {
     private lateinit var adapter: CardAdapter
     private var selectedId = -1
     private var measuredWidth = 0
+    private var pendingCards: List<CardItem>? = null
+    private var hasLoadedCards = false
     private val addCard = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
         if (result.resultCode == Activity.RESULT_OK) {
             selectedId = -1
@@ -29,6 +32,7 @@ class MainActivity : BaseActivity() {
         setup(R.layout.activity_main)
         selectedId = savedInstanceState?.getInt("selectedId", -1) ?: -1
         pager = findViewById(R.id.viewPager)
+        (pager.getChildAt(0) as RecyclerView).isNestedScrollingEnabled = false
         pager.addOnLayoutChangeListener { _, left, _, right, _, _, _, _, _ ->
             val width = right - left
             if (width > 0 && width != measuredWidth) resizePager(width)
@@ -44,6 +48,11 @@ class MainActivity : BaseActivity() {
                 cards.getOrNull(position)?.let { selectedId = it.id }
                 showSelection()
             }
+            override fun onPageScrollStateChanged(state: Int) {
+                if (state == ViewPager2.SCROLL_STATE_IDLE) {
+                    pendingCards?.let { loaded -> pendingCards = null; displayCards(loaded) }
+                }
+            }
         })
         findViewById<FloatingActionButton>(R.id.fabAdd).setOnClickListener {
             addCard.launch(Intent(this, AddCardActivity::class.java))
@@ -56,7 +65,14 @@ class MainActivity : BaseActivity() {
     }
     private fun loadCards() {
         databaseWork({ dao.getAll() }, failed = { findViewById<View>(R.id.btnRetry).visibility = View.VISIBLE }) { loaded ->
+            if (pager.scrollState == ViewPager2.SCROLL_STATE_IDLE) displayCards(loaded)
+            else pendingCards = loaded
+        }
+    }
+    private fun displayCards(loaded: List<CardItem>) {
             findViewById<View>(R.id.btnRetry).visibility = View.GONE
+            if (hasLoadedCards && cards == loaded) { showSelection(); return }
+            hasLoadedCards = true
             val targetId = selectedId
             cards.clear(); cards.addAll(loaded); adapter.submitItems(loaded)
             resizePager(pager.width)
@@ -67,7 +83,6 @@ class MainActivity : BaseActivity() {
             selectedId = cards.getOrNull(pager.currentItem)?.id ?: -1
             findViewById<TextView>(R.id.tvSummary).text = getString(R.string.wallet_summary, cards.size, CardDisplay.money(cards.filter { !it.cancelled && !it.rewardReceived }.sumOf { it.rewardAmount.toLong() }))
             showSelection()
-        }
     }
     private fun showSelection() {
         val card = cards.getOrNull(pager.currentItem)

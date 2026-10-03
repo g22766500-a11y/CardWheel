@@ -1,4 +1,4 @@
-# CardWheel 1.1.1
+# CardWheel 1.1.2
 
 업로드한 Android Studio 프로젝트를 직접 수정한 버전입니다.
 XML Views + Kotlin + Room을 유지하며 Jetpack Compose를 추가하지 않았습니다.
@@ -15,6 +15,13 @@ XML Views + Kotlin + Room을 유지하며 Jetpack Compose를 추가하지 않았
 ```powershell
 .\gradlew.bat assembleDebug testDebugUnitTest lintDebug
 ```
+
+## 카드 넘김 수정
+
+- 카드 영역에서 시작한 제스처의 방향을 구분해, 대각선 가로 스와이프가 세로 스크롤에 취소되지 않도록 처리했습니다.
+- 카드 영역의 불필요한 중첩 스크롤을 해제했습니다.
+- 카드 넘김 도중 도착한 데이터 갱신은 넘김이 끝난 뒤 적용하고, 동일한 데이터는 페이지를 재설정하지 않습니다.
+- 대각선 가로 스와이프, 세로 스크롤, 취소 후 다음 제스처, 짧은 터치를 확인하는 회귀 테스트를 추가했습니다.
 
 ## 이번 화면 수정
 
@@ -49,7 +56,7 @@ XML Views + Kotlin + Room을 유지하며 Jetpack Compose를 추가하지 않았
 ## 검증 결과 (2026-10-03)
 
 - assembleDebug: 통과, 디버그 APK 생성 확인
-- testDebugUnitTest: 9개 통과, 실패 0
+- testDebugUnitTest: 10개 통과, 실패 0
 - lintDebug: 통과, 오류 0, 경고 10개
 - 테스트: 금액 오버플로/실적 표시, 자정·서머타임 D-day, 상태 표시 우선순위, 등록 필수값·금액 검증, 날짜 선택·삭제·복원, 밝은/어두운 테마 레이아웃 구성, Room 1→2 마이그레이션 후 기존 데이터 수정·삭제
 

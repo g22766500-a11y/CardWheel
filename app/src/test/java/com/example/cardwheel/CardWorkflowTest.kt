@@ -10,6 +10,7 @@ import android.view.ContextThemeWrapper
 import android.widget.TextView
 import android.widget.EditText
 import android.view.View
+import android.view.MotionEvent
 import android.graphics.Rect
 import androidx.room.Room
 import com.google.android.material.button.MaterialButton
@@ -31,6 +32,40 @@ import org.robolectric.annotation.SQLiteMode
 @GraphicsMode(GraphicsMode.Mode.LEGACY)
 @SQLiteMode(SQLiteMode.Mode.LEGACY)
 class CardWorkflowTest {
+    @Test fun diagonalCardSwipesStayHorizontalButVerticalGesturesScrollThePage() {
+        val controller = Robolectric.buildActivity(AddCardActivity::class.java).setup()
+        val activity = controller.get()
+        activity.setContentView(R.layout.activity_main)
+        val root = activity.findViewById<android.view.ViewGroup>(R.id.root)
+        root.findViewById<View>(R.id.emptyState).visibility = View.GONE
+        root.findViewById<View>(R.id.walletContent).visibility = View.VISIBLE
+        val density = activity.resources.displayMetrics.density
+        root.measure(View.MeasureSpec.makeMeasureSpec((320 * density).toInt(), View.MeasureSpec.EXACTLY),
+            View.MeasureSpec.makeMeasureSpec((480 * density).toInt(), View.MeasureSpec.EXACTLY))
+        root.layout(0, 0, root.measuredWidth, root.measuredHeight)
+        val scroll = root.findViewById<WalletScrollView>(R.id.mainScroll)
+        val pager = root.findViewById<View>(R.id.viewPager)
+        val location = IntArray(2)
+        pager.getLocationOnScreen(location)
+        val x = location[0] + pager.width / 2f
+        val y = location[1] + 40 * density
+        fun touch(action: Int, dx: Float = 0f, dy: Float = 0f): Boolean {
+            val event = MotionEvent.obtain(0, 20, action, x + dx * density, y + dy * density, 0)
+            return try { scroll.onInterceptTouchEvent(event) } finally { event.recycle() }
+        }
+        assertFalse(touch(MotionEvent.ACTION_DOWN))
+        assertFalse(touch(MotionEvent.ACTION_MOVE, -100f, -35f))
+        assertFalse(touch(MotionEvent.ACTION_MOVE, -160f, -70f))
+        touch(MotionEvent.ACTION_CANCEL)
+        assertFalse(touch(MotionEvent.ACTION_DOWN))
+        assertTrue(touch(MotionEvent.ACTION_MOVE, -5f, -100f))
+        touch(MotionEvent.ACTION_CANCEL)
+        assertFalse(touch(MotionEvent.ACTION_DOWN))
+        assertFalse(touch(MotionEvent.ACTION_MOVE, 1f, 1f))
+        touch(MotionEvent.ACTION_UP)
+        controller.pause().stop().destroy()
+    }
+
     @Test fun fabHasReservedSpaceOutsideScrollableContentOnSmallScreens() {
         val themed = ContextThemeWrapper(RuntimeEnvironment.getApplication(), R.style.Theme_CardWheel)
         val root = LayoutInflater.from(themed).inflate(R.layout.activity_main, null) as android.view.ViewGroup
