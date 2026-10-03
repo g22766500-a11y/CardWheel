@@ -1,0 +1,51 @@
+# CardWheel 1.1.0
+
+업로드한 Android Studio 프로젝트를 직접 수정한 버전입니다.
+XML Views + Kotlin + Room을 유지하며 Jetpack Compose를 추가하지 않았습니다.
+
+## 사용 방법
+
+1. ZIP을 풀고 Android Studio에서 **CardWheel 폴더**를 엽니다.
+2. SDK Manager에서 Android SDK Platform 37.0과 Build Tools 36.0.0을 준비합니다.
+3. 기존 프로젝트와 동일하게 Gradle 9.6.0 / AGP 9.4.1 / JDK 25를 사용합니다. Gradle JDK는 Android Studio의 내장 JDK를 선택할 수 있습니다.
+4. Gradle 동기화 후 app을 실행합니다. local.properties는 Android Studio가 현재 컴퓨터에 맞게 생성하도록 ZIP에서 제외했습니다.
+
+프로젝트 루트에서 검증하려면:
+
+```powershell
+.\gradlew.bat assembleDebug testDebugUnitTest lintDebug
+```
+
+## 화면과 기능
+
+- 메인: 네이비 그라데이션 카드형 ViewPager2, FAB 등록, 페이지 번호, 선택한 카드 상태와 마감 일정, 미수령 예상 혜택 합계, 빈 상태, 조회 실패 시 재시도.
+- 상세: 카드 정보, 실적 진행률과 남은 금액, 혜택 금액, 날짜별 D-day, 메모, 수정, 확인 후 삭제.
+- 상태 관리: 기존 rewardReceived / cancelled 필드를 사용한 혜택 수령·해지 완료 스위치.
+- 등록/수정: Material 외곽선 입력 UI, 기존 값 불러오기, 5가지 날짜의 DatePicker와 날짜 지우기, 작성 내용 이탈 확인.
+- 검증: 카드사·카드명 필수, 0 이상 Int 범위 금액, 실적 마감일과 발급일 순서. 빈 금액은 0으로 저장하며 현재 사용액이 목표를 넘는 것은 허용합니다.
+- 안정성: Room 작업을 백그라운드에서 처리, 저장 실패 시 입력 내용 유지, 연속 저장 방지, 화면 회전 중 저장 작업 유지, 날짜·입력 복원.
+- 표시: 한국 원화 형식, 달력 날짜 기반 D-day, 다크 모드, 시스템 영역/키보드 여백, 글꼴 크기에 따른 메인 카드 영역 조정, CardWheel 런처 아이콘.
+
+사용액은 상세의 '카드 정보 수정'에서 직접 갱신할 수 있습니다. 혜택 합계는 수령·해지 완료 카드를 제외한 등록된 혜택 금액의 합계입니다.
+
+## 기존 데이터 유지
+
+- applicationId: com.example.cardwheel
+- DB 파일명: cardwheel_database
+- cards 엔티티의 모든 컬럼과 Room version=2 유지
+- 기존 1→2 마이그레이션 유지, destructive migration 추가 없음
+- 수정은 기존 행의 id·status·수령/해지 상태를 유지한 @Update 사용
+
+기존 설치 앱에 업데이트하려면 기존과 같은 서명키로 빌드해 설치하세요. 앱을 삭제한 뒤 재설치하면 로컬 데이터가 삭제됩니다.
+
+## 검증 결과 (2026-10-03)
+
+- assembleDebug: 통과, 디버그 APK 생성 확인
+- testDebugUnitTest: 8개 통과, 실패 0
+- lintDebug: 통과, 오류 0, 경고 10개
+- 테스트: 금액 오버플로/실적 표시, 자정·서머타임 D-day, 상태 표시 우선순위, 등록 필수값·금액 검증, 날짜 선택·삭제·복원, 밝은/어두운 테마 레이아웃 구성, Room 1→2 마이그레이션 후 기존 데이터 수정·삭제
+
+화면/Room 테스트는 Robolectric의 Android 15(API 35) 환경에서 실행했습니다. 실제 기기·에뮬레이터에서 터치, 화면 배치, OEM별 동작을 직접 확인한 결과는 포함하지 않습니다.
+Lint에 남은 경고는 유지한 라이브러리의 새 버전 알림 및 의존성 선언 위치 관련 안내입니다. 기존 의존성 버전을 일괄 교체하지 않았습니다.
+
+소스 ZIP에는 전체 프로젝트와 이 안내문이 포함되며, 빌드 캐시·개인 SDK 경로·서명키는 제외했습니다.

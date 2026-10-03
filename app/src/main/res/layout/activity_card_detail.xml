@@ -1,0 +1,73 @@
+<?xml version='1.0' encoding='utf-8'?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" android:id="@+id/root" android:layout_width="match_parent" android:layout_height="match_parent" android:orientation="vertical">
+    <com.google.android.material.appbar.MaterialToolbar android:id="@+id/toolbar" android:layout_width="match_parent" android:layout_height="?attr/actionBarSize" app:title="@string/activity_add_card_title_1" app:navigationIcon="@drawable/ic_back" app:navigationContentDescription="@string/activity_add_card_navigationcontentdescription_1" app:titleTextColor="@color/ink" />
+    <androidx.core.widget.NestedScrollView android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1" android:fillViewport="true">
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="24dp" android:paddingTop="8dp" android:paddingBottom="32dp">
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/activity_card_detail_text_4" android:textSize="14sp" android:textColor="@color/muted" android:lineSpacingExtra="3dp" android:id="@+id/tvCompany" />
+            <Space android:layout_width="1dp" android:layout_height="6dp" />
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/activity_card_detail_text_6" android:textSize="28sp" android:textColor="@color/ink" android:lineSpacingExtra="3dp" android:id="@+id/tvCardName" android:textStyle="bold" />
+            <Space android:layout_width="1dp" android:layout_height="10dp" />
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="" android:textSize="14sp" android:textColor="@color/primary" android:lineSpacingExtra="3dp" android:id="@+id/tvStatus" />
+            <com.google.android.material.card.MaterialCardView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="16dp" app:cardCornerRadius="24dp" app:cardElevation="0dp" app:strokeWidth="1dp" app:strokeColor="@color/outline" app:cardBackgroundColor="@color/surface">
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="20dp">
+                    <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/activity_card_detail_text_11" android:textSize="16sp" android:textColor="@color/ink" android:lineSpacingExtra="3dp" android:textStyle="bold" />
+                    <Space android:layout_width="1dp" android:layout_height="16dp" />
+                    <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="" android:textSize="26sp" android:textColor="@color/ink" android:lineSpacingExtra="3dp" android:id="@+id/tvProgress" android:textStyle="bold" />
+                    <Space android:layout_width="1dp" android:layout_height="16dp" />
+                    <com.google.android.material.progressindicator.LinearProgressIndicator android:id="@+id/progressSpend" android:layout_width="match_parent" android:layout_height="wrap_content" app:trackThickness="8dp" app:trackCornerRadius="4dp" />
+                    <Space android:layout_width="1dp" android:layout_height="14dp" />
+                    <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="" android:textSize="15sp" android:textColor="@color/ink" android:lineSpacingExtra="3dp" android:id="@+id/tvSpend" />
+                    <Space android:layout_width="1dp" android:layout_height="8dp" />
+                    <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="" android:textSize="13sp" android:textColor="@color/muted" android:lineSpacingExtra="3dp" android:id="@+id/tvRemaining" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+            <com.google.android.material.card.MaterialCardView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="16dp" app:cardCornerRadius="24dp" app:cardElevation="0dp" app:strokeWidth="1dp" app:strokeColor="@color/outline" app:cardBackgroundColor="@color/surface">
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="20dp">
+                    <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/activity_card_detail_text_22" android:textSize="16sp" android:textColor="@color/ink" android:lineSpacingExtra="3dp" android:textStyle="bold" />
+                    <Space android:layout_width="1dp" android:layout_height="16dp" />
+                    <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="" android:textSize="26sp" android:textColor="@color/ink" android:lineSpacingExtra="3dp" android:id="@+id/tvReward" android:textStyle="bold" />
+                    <Space android:layout_width="1dp" android:layout_height="8dp" />
+                    <com.google.android.material.materialswitch.MaterialSwitch android:id="@+id/switchReward" android:layout_width="match_parent" android:layout_height="wrap_content" android:minHeight="56dp" android:text="@string/activity_card_detail_text_26" android:enabled="false" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+            <com.google.android.material.card.MaterialCardView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="16dp" app:cardCornerRadius="24dp" app:cardElevation="0dp" app:strokeWidth="1dp" app:strokeColor="@color/outline" app:cardBackgroundColor="@color/surface">
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="20dp">
+                    <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/activity_add_card_text_24" android:textSize="16sp" android:textColor="@color/ink" android:lineSpacingExtra="3dp" android:textStyle="bold" />
+                    <Space android:layout_width="1dp" android:layout_height="16dp" />
+                    <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/activity_card_detail_text_31" android:textSize="13sp" android:textColor="@color/muted" android:lineSpacingExtra="3dp" />
+                    <Space android:layout_width="1dp" android:layout_height="4dp" />
+                    <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/activity_card_detail_text_33" android:textSize="16sp" android:textColor="@color/ink" android:lineSpacingExtra="3dp" android:id="@+id/tvIssueDate" />
+                    <Space android:layout_width="1dp" android:layout_height="18dp" />
+                    <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/activity_card_detail_text_35" android:textSize="13sp" android:textColor="@color/muted" android:lineSpacingExtra="3dp" />
+                    <Space android:layout_width="1dp" android:layout_height="4dp" />
+                    <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/activity_card_detail_text_33" android:textSize="16sp" android:textColor="@color/ink" android:lineSpacingExtra="3dp" android:id="@+id/tvSpendDeadline" />
+                    <Space android:layout_width="1dp" android:layout_height="18dp" />
+                    <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/activity_card_detail_text_39" android:textSize="13sp" android:textColor="@color/muted" android:lineSpacingExtra="3dp" />
+                    <Space android:layout_width="1dp" android:layout_height="4dp" />
+                    <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/activity_card_detail_text_33" android:textSize="16sp" android:textColor="@color/ink" android:lineSpacingExtra="3dp" android:id="@+id/tvRewardDate" />
+                    <Space android:layout_width="1dp" android:layout_height="18dp" />
+                    <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/activity_card_detail_text_43" android:textSize="13sp" android:textColor="@color/muted" android:lineSpacingExtra="3dp" />
+                    <Space android:layout_width="1dp" android:layout_height="4dp" />
+                    <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/activity_card_detail_text_33" android:textSize="16sp" android:textColor="@color/ink" android:lineSpacingExtra="3dp" android:id="@+id/tvCancelDate" />
+                    <Space android:layout_width="1dp" android:layout_height="18dp" />
+                    <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/activity_card_detail_text_47" android:textSize="13sp" android:textColor="@color/muted" android:lineSpacingExtra="3dp" />
+                    <Space android:layout_width="1dp" android:layout_height="4dp" />
+                    <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/activity_card_detail_text_33" android:textSize="16sp" android:textColor="@color/ink" android:lineSpacingExtra="3dp" android:id="@+id/tvNextEligibleDate" />
+                    <Space android:layout_width="1dp" android:layout_height="18dp" />
+                    <com.google.android.material.materialswitch.MaterialSwitch android:id="@+id/switchCancelled" android:layout_width="match_parent" android:layout_height="wrap_content" android:minHeight="56dp" android:text="@string/activity_card_detail_text_51" android:enabled="false" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+            <com.google.android.material.card.MaterialCardView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="16dp" app:cardCornerRadius="24dp" app:cardElevation="0dp" app:strokeWidth="1dp" app:strokeColor="@color/outline" app:cardBackgroundColor="@color/surface">
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="20dp">
+                    <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/activity_card_detail_text_54" android:textSize="16sp" android:textColor="@color/ink" android:lineSpacingExtra="3dp" android:textStyle="bold" />
+                    <Space android:layout_width="1dp" android:layout_height="16dp" />
+                    <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="" android:textSize="15sp" android:textColor="@color/ink" android:lineSpacingExtra="3dp" android:id="@+id/tvMemo" android:textIsSelectable="true" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+            <Space android:layout_width="1dp" android:layout_height="24dp" />
+            <com.google.android.material.button.MaterialButton android:id="@+id/btnEdit" style="@style/Widget.Material3.Button" android:layout_width="match_parent" android:layout_height="wrap_content" android:minHeight="56dp" android:text="@string/activity_card_detail_text_58" app:cornerRadius="16dp" android:enabled="false" />
+            <Space android:layout_width="1dp" android:layout_height="8dp" />
+            <com.google.android.material.button.MaterialButton android:id="@+id/btnDelete" style="@style/Widget.Material3.Button.TextButton" android:layout_width="match_parent" android:layout_height="wrap_content" android:minHeight="56dp" android:text="@string/activity_card_detail_text_60" app:cornerRadius="16dp" android:textColor="@color/error" android:enabled="false" />
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+</LinearLayout>

@@ -1,0 +1,18 @@
+<?xml version='1.0' encoding='utf-8'?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" android:layout_width="match_parent" android:layout_height="match_parent" android:padding="8dp" android:focusable="true">
+    <com.google.android.material.card.MaterialCardView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_gravity="center" app:cardCornerRadius="28dp" app:cardElevation="4dp" app:strokeWidth="0dp">
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="28dp" android:background="@drawable/card_gradient">
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/item_card_text_3" android:textSize="11sp" android:textColor="#B8C7EF" android:lineSpacingExtra="3dp" android:letterSpacing="0.18" />
+            <Space android:layout_width="1dp" android:layout_height="20dp" />
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/activity_card_detail_text_4" android:textSize="14sp" android:textColor="#CCD6EF" android:lineSpacingExtra="3dp" android:id="@+id/tvCompany" />
+            <Space android:layout_width="1dp" android:layout_height="4dp" />
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/activity_card_detail_text_6" android:textSize="26sp" android:textColor="#FFFFFF" android:lineSpacingExtra="3dp" android:id="@+id/tvCardName" android:maxLines="2" android:ellipsize="end" android:textStyle="bold" />
+            <Space android:layout_width="1dp" android:layout_height="32dp" />
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/item_card_text_9" android:textSize="16sp" android:textColor="#FFFFFF" android:lineSpacingExtra="3dp" android:id="@+id/tvProgress" android:textStyle="bold" />
+            <Space android:layout_width="1dp" android:layout_height="12dp" />
+            <com.google.android.material.progressindicator.LinearProgressIndicator android:id="@+id/progressSpend" android:layout_width="match_parent" android:layout_height="wrap_content" android:progress="0" app:trackThickness="5dp" app:trackCornerRadius="3dp" app:indicatorColor="#B3C3FF" app:trackColor="#526187" />
+            <Space android:layout_width="1dp" android:layout_height="16dp" />
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/activity_card_detail_text_22" android:textSize="14sp" android:textColor="#CCD6EF" android:lineSpacingExtra="3dp" android:id="@+id/tvReward" />
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+</FrameLayout>

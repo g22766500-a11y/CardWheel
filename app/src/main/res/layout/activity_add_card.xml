@@ -1,0 +1,53 @@
+<?xml version='1.0' encoding='utf-8'?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" android:id="@+id/root" android:layout_width="match_parent" android:layout_height="match_parent" android:orientation="vertical">
+    <com.google.android.material.appbar.MaterialToolbar android:id="@+id/toolbar" android:layout_width="match_parent" android:layout_height="?attr/actionBarSize" app:title="@string/activity_add_card_title_1" app:navigationIcon="@drawable/ic_back" app:navigationContentDescription="@string/activity_add_card_navigationcontentdescription_1" app:titleTextColor="@color/ink" />
+    <androidx.core.widget.NestedScrollView android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1" android:fillViewport="true">
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="24dp" android:paddingTop="8dp" android:paddingBottom="32dp">
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/activity_add_card_text_4" android:textSize="24sp" android:textColor="@color/ink" android:lineSpacingExtra="3dp" android:textStyle="bold" />
+            <Space android:layout_width="1dp" android:layout_height="8dp" />
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/activity_add_card_text_6" android:textSize="14sp" android:textColor="@color/muted" android:lineSpacingExtra="3dp" />
+            <Space android:layout_width="1dp" android:layout_height="24dp" />
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/activity_add_card_text_8" android:textSize="17sp" android:textColor="@color/ink" android:lineSpacingExtra="3dp" android:textStyle="bold" />
+            <Space android:layout_width="1dp" android:layout_height="12dp" />
+            <com.google.android.material.textfield.TextInputLayout android:id="@+id/tilCompany" style="@style/Widget.Material3.TextInputLayout.OutlinedBox" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginBottom="12dp" android:hint="@string/activity_add_card_hint_10" app:boxCornerRadiusTopStart="16dp" app:boxCornerRadiusTopEnd="16dp" app:boxCornerRadiusBottomStart="16dp" app:boxCornerRadiusBottomEnd="16dp">
+                <com.google.android.material.textfield.TextInputEditText android:id="@+id/etCompany" android:layout_width="match_parent" android:layout_height="wrap_content" android:minHeight="56dp" android:inputType="text" android:maxLength="100" />
+            </com.google.android.material.textfield.TextInputLayout>
+            <com.google.android.material.textfield.TextInputLayout android:id="@+id/tilCardName" style="@style/Widget.Material3.TextInputLayout.OutlinedBox" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginBottom="12dp" android:hint="@string/activity_add_card_hint_12" app:boxCornerRadiusTopStart="16dp" app:boxCornerRadiusTopEnd="16dp" app:boxCornerRadiusBottomStart="16dp" app:boxCornerRadiusBottomEnd="16dp">
+                <com.google.android.material.textfield.TextInputEditText android:id="@+id/etCardName" android:layout_width="match_parent" android:layout_height="wrap_content" android:minHeight="56dp" android:inputType="text" android:maxLength="100" />
+            </com.google.android.material.textfield.TextInputLayout>
+            <Space android:layout_width="1dp" android:layout_height="12dp" />
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/activity_add_card_text_15" android:textSize="17sp" android:textColor="@color/ink" android:lineSpacingExtra="3dp" android:textStyle="bold" />
+            <Space android:layout_width="1dp" android:layout_height="12dp" />
+            <com.google.android.material.textfield.TextInputLayout android:id="@+id/tilRequiredSpend" style="@style/Widget.Material3.TextInputLayout.OutlinedBox" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginBottom="12dp" android:hint="@string/activity_add_card_hint_17" app:boxCornerRadiusTopStart="16dp" app:boxCornerRadiusTopEnd="16dp" app:boxCornerRadiusBottomStart="16dp" app:boxCornerRadiusBottomEnd="16dp" app:helperText="@string/activity_add_card_helpertext_17">
+                <com.google.android.material.textfield.TextInputEditText android:id="@+id/etRequiredSpend" android:layout_width="match_parent" android:layout_height="wrap_content" android:minHeight="56dp" android:inputType="number" android:maxLength="10" />
+            </com.google.android.material.textfield.TextInputLayout>
+            <com.google.android.material.textfield.TextInputLayout android:id="@+id/tilCurrentSpend" style="@style/Widget.Material3.TextInputLayout.OutlinedBox" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginBottom="12dp" android:hint="@string/activity_add_card_hint_19" app:boxCornerRadiusTopStart="16dp" app:boxCornerRadiusTopEnd="16dp" app:boxCornerRadiusBottomStart="16dp" app:boxCornerRadiusBottomEnd="16dp">
+                <com.google.android.material.textfield.TextInputEditText android:id="@+id/etCurrentSpend" android:layout_width="match_parent" android:layout_height="wrap_content" android:minHeight="56dp" android:inputType="number" android:maxLength="10" />
+            </com.google.android.material.textfield.TextInputLayout>
+            <com.google.android.material.textfield.TextInputLayout android:id="@+id/tilRewardAmount" style="@style/Widget.Material3.TextInputLayout.OutlinedBox" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginBottom="12dp" android:hint="@string/activity_add_card_hint_21" app:boxCornerRadiusTopStart="16dp" app:boxCornerRadiusTopEnd="16dp" app:boxCornerRadiusBottomStart="16dp" app:boxCornerRadiusBottomEnd="16dp">
+                <com.google.android.material.textfield.TextInputEditText android:id="@+id/etRewardAmount" android:layout_width="match_parent" android:layout_height="wrap_content" android:minHeight="56dp" android:inputType="number" android:maxLength="10" />
+            </com.google.android.material.textfield.TextInputLayout>
+            <Space android:layout_width="1dp" android:layout_height="12dp" />
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/activity_add_card_text_24" android:textSize="17sp" android:textColor="@color/ink" android:lineSpacingExtra="3dp" android:textStyle="bold" />
+            <Space android:layout_width="1dp" android:layout_height="6dp" />
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/activity_add_card_text_26" android:textSize="13sp" android:textColor="@color/muted" android:lineSpacingExtra="3dp" />
+            <Space android:layout_width="1dp" android:layout_height="12dp" />
+            <com.google.android.material.button.MaterialButton android:id="@+id/tvIssueDate" style="@style/Widget.Material3.Button.OutlinedButton" android:layout_width="match_parent" android:layout_height="wrap_content" android:minHeight="56dp" android:text="@string/activity_add_card_text_28" app:cornerRadius="16dp" android:gravity="start|center_vertical" />
+            <Space android:layout_width="1dp" android:layout_height="4dp" />
+            <com.google.android.material.button.MaterialButton android:id="@+id/tvSpendDeadline" style="@style/Widget.Material3.Button.OutlinedButton" android:layout_width="match_parent" android:layout_height="wrap_content" android:minHeight="56dp" android:text="@string/activity_add_card_text_30" app:cornerRadius="16dp" android:gravity="start|center_vertical" />
+            <Space android:layout_width="1dp" android:layout_height="4dp" />
+            <com.google.android.material.button.MaterialButton android:id="@+id/tvRewardDate" style="@style/Widget.Material3.Button.OutlinedButton" android:layout_width="match_parent" android:layout_height="wrap_content" android:minHeight="56dp" android:text="@string/activity_add_card_text_32" app:cornerRadius="16dp" android:gravity="start|center_vertical" />
+            <Space android:layout_width="1dp" android:layout_height="4dp" />
+            <com.google.android.material.button.MaterialButton android:id="@+id/tvCancelDate" style="@style/Widget.Material3.Button.OutlinedButton" android:layout_width="match_parent" android:layout_height="wrap_content" android:minHeight="56dp" android:text="@string/activity_add_card_text_34" app:cornerRadius="16dp" android:gravity="start|center_vertical" />
+            <Space android:layout_width="1dp" android:layout_height="4dp" />
+            <com.google.android.material.button.MaterialButton android:id="@+id/tvNextEligibleDate" style="@style/Widget.Material3.Button.OutlinedButton" android:layout_width="match_parent" android:layout_height="wrap_content" android:minHeight="56dp" android:text="@string/activity_add_card_text_36" app:cornerRadius="16dp" android:gravity="start|center_vertical" />
+            <Space android:layout_width="1dp" android:layout_height="4dp" />
+            <Space android:layout_width="1dp" android:layout_height="24dp" />
+            <com.google.android.material.textfield.TextInputLayout android:id="@+id/tilMemo" style="@style/Widget.Material3.TextInputLayout.OutlinedBox" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginBottom="12dp" android:hint="@string/activity_add_card_hint_39" app:boxCornerRadiusTopStart="16dp" app:boxCornerRadiusTopEnd="16dp" app:boxCornerRadiusBottomStart="16dp" app:boxCornerRadiusBottomEnd="16dp">
+                <com.google.android.material.textfield.TextInputEditText android:id="@+id/etMemo" android:layout_width="match_parent" android:layout_height="wrap_content" android:minHeight="56dp" android:inputType="textMultiLine" android:maxLength="2000" android:minLines="3" android:gravity="top" />
+            </com.google.android.material.textfield.TextInputLayout>
+            <Space android:layout_width="1dp" android:layout_height="16dp" />
+            <com.google.android.material.button.MaterialButton android:id="@+id/btnSave" style="@style/Widget.Material3.Button" android:layout_width="match_parent" android:layout_height="wrap_content" android:minHeight="56dp" android:text="@string/activity_add_card_text_42" app:cornerRadius="16dp" />
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+</LinearLayout>
