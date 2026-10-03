@@ -1,4 +1,4 @@
-# CardWheel 1.1.2
+# CardWheel 1.1.3
 
 업로드한 Android Studio 프로젝트를 직접 수정한 버전입니다.
 XML Views + Kotlin + Room을 유지하며 Jetpack Compose를 추가하지 않았습니다.
@@ -15,6 +15,15 @@ XML Views + Kotlin + Room을 유지하며 Jetpack Compose를 추가하지 않았
 ```powershell
 .\gradlew.bat assembleDebug testDebugUnitTest lintDebug
 ```
+
+## 카드 간격 및 햅틱 수정
+
+- 카드 외곽을 페이지 영역에 맞춰 채워, 처음 표시와 페이지 이동 후의 안내 문구 간격이 달라지지 않도록 수정했습니다.
+- 높이는 페이지 루트가 아닌 카드 내부 콘텐츠를 직접 측정합니다. 카드 높이를 줄이는 스케일 애니메이션도 제거했습니다.
+- 사용자가 스와이프해서 다른 카드에 정착했을 때 약한 햅틱을 한 번 제공합니다. 첫 로딩, 코드로 선택한 페이지, 취소된 스와이프, 같은 카드 복귀에는 햅틱이 발생하지 않습니다.
+- Android 14 이상에서는 SEGMENT_TICK, 이전 버전에서는 CLOCK_TICK을 사용합니다. 시스템의 터치 피드백 설정을 따르며 VIBRATE 권한은 추가하지 않았습니다.
+- 진동 강도는 기기 하드웨어와 시스템 설정에 따라 달라집니다. 실기기에서의 촉감 검증은 포함하지 않습니다.
+- 카드 외곽 간격과 햅틱 발생 조건을 확인하는 회귀 테스트를 추가했습니다.
 
 ## 카드 넘김 수정
 
@@ -56,7 +65,7 @@ XML Views + Kotlin + Room을 유지하며 Jetpack Compose를 추가하지 않았
 ## 검증 결과 (2026-10-03)
 
 - assembleDebug: 통과, 디버그 APK 생성 확인
-- testDebugUnitTest: 10개 통과, 실패 0
+- testDebugUnitTest: 12개 통과, 실패 0
 - lintDebug: 통과, 오류 0, 경고 10개
 - 테스트: 금액 오버플로/실적 표시, 자정·서머타임 D-day, 상태 표시 우선순위, 등록 필수값·금액 검증, 날짜 선택·삭제·복원, 밝은/어두운 테마 레이아웃 구성, Room 1→2 마이그레이션 후 기존 데이터 수정·삭제
 

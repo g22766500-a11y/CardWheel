@@ -5,6 +5,8 @@ import android.app.Activity
 import android.os.Bundle
 import android.view.View
 import android.view.LayoutInflater
+import android.view.HapticFeedbackConstants
+import android.os.Build
 import android.widget.TextView
 import androidx.viewpager2.widget.ViewPager2
 import androidx.recyclerview.widget.RecyclerView
@@ -20,6 +22,8 @@ class MainActivity : BaseActivity() {
     private var measuredWidth = 0
     private var pendingCards: List<CardItem>? = null
     private var hasLoadedCards = false
+    private val pageHaptics = PageHaptics()
+    private var restoringCards = false
     private val addCard = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
         if (result.resultCode == Activity.RESULT_OK) {
             selectedId = -1
@@ -40,7 +44,6 @@ class MainActivity : BaseActivity() {
         adapter = CardAdapter { startActivity(Intent(this, CardDetailActivity::class.java).putExtra("cardId", it.id)) }
         pager.adapter = adapter
         pager.setPageTransformer { page, position ->
-            page.scaleY = 1f - 0.04f * kotlin.math.abs(position).coerceAtMost(1f)
             page.alpha = 1f - 0.15f * kotlin.math.abs(position).coerceAtMost(1f)
         }
         pager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
@@ -49,7 +52,15 @@ class MainActivity : BaseActivity() {
                 showSelection()
             }
             override fun onPageScrollStateChanged(state: Int) {
+                if (state == ViewPager2.SCROLL_STATE_DRAGGING && !restoringCards) {
+                    pageHaptics.start(cards.getOrNull(pager.currentItem)?.id ?: -1)
+                }
                 if (state == ViewPager2.SCROLL_STATE_IDLE) {
+                    val settledId = cards.getOrNull(pager.currentItem)?.id ?: -1
+                    if (pageHaptics.settle(settledId)) {
+                        pager.performHapticFeedback(if (Build.VERSION.SDK_INT >= 34)
+                            HapticFeedbackConstants.SEGMENT_TICK else HapticFeedbackConstants.CLOCK_TICK)
+                    }
                     pendingCards?.let { loaded -> pendingCards = null; displayCards(loaded) }
                 }
             }
@@ -74,6 +85,7 @@ class MainActivity : BaseActivity() {
             if (hasLoadedCards && cards == loaded) { showSelection(); return }
             hasLoadedCards = true
             val targetId = selectedId
+            restoringCards = true
             cards.clear(); cards.addAll(loaded); adapter.submitItems(loaded)
             resizePager(pager.width)
             val empty = cards.isEmpty()
@@ -81,6 +93,7 @@ class MainActivity : BaseActivity() {
             findViewById<View>(R.id.walletContent).visibility = if (empty) View.GONE else View.VISIBLE
             pager.setCurrentItem(cards.indexOfFirst { it.id == targetId }.coerceAtLeast(0), false)
             selectedId = cards.getOrNull(pager.currentItem)?.id ?: -1
+            restoringCards = false
             findViewById<TextView>(R.id.tvSummary).text = getString(R.string.wallet_summary, cards.size, CardDisplay.money(cards.filter { !it.cancelled && !it.rewardReceived }.sumOf { it.rewardAmount.toLong() }))
             showSelection()
     }
@@ -95,6 +108,9 @@ class MainActivity : BaseActivity() {
         if (width <= 0) return
         measuredWidth = width
         val sample = LayoutInflater.from(this).inflate(R.layout.item_card, pager, false)
+        val content = sample.findViewById<View>(R.id.cardContent)
+        val verticalPadding = sample.paddingTop + sample.paddingBottom
+        val contentWidth = (width - sample.paddingLeft - sample.paddingRight).coerceAtLeast(1)
         val examples = cards.ifEmpty { listOf(CardItem(company = "카드사", cardName = "카드명")) }
         val height = examples.maxOf { card ->
             sample.findViewById<TextView>(R.id.tvCompany).text = card.company
@@ -102,9 +118,9 @@ class MainActivity : BaseActivity() {
             sample.findViewById<TextView>(R.id.tvProgress).text = if (card.requiredSpend > 0)
                 "실적 ${CardDisplay.progress(card)}%" else "실적 조건 미설정"
             sample.findViewById<TextView>(R.id.tvReward).text = getString(R.string.card_reward, CardDisplay.money(card.rewardAmount.toLong()))
-            sample.measure(View.MeasureSpec.makeMeasureSpec(width, View.MeasureSpec.EXACTLY),
-                View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED))
-            sample.measuredHeight
+            content.measure(View.MeasureSpec.makeMeasureSpec(contentWidth, View.MeasureSpec.EXACTLY),
+                    View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED))
+            content.measuredHeight + verticalPadding
         }
         if (height > 0 && pager.layoutParams.height != height) {
             pager.layoutParams = pager.layoutParams.apply { this.height = height }

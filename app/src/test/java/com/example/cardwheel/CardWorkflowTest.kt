@@ -32,6 +32,20 @@ import org.robolectric.annotation.SQLiteMode
 @GraphicsMode(GraphicsMode.Mode.LEGACY)
 @SQLiteMode(SQLiteMode.Mode.LEGACY)
 class CardWorkflowTest {
+    @Test fun cardBottomSpacingDoesNotChangeWhenPagerHeightChanges() {
+        val themed = ContextThemeWrapper(RuntimeEnvironment.getApplication(), R.style.Theme_CardWheel)
+        val page = LayoutInflater.from(themed).inflate(R.layout.item_card, null) as android.view.ViewGroup
+        val density = themed.resources.displayMetrics.density
+        for (height in listOf(300, 350)) {
+            page.measure(View.MeasureSpec.makeMeasureSpec((320 * density).toInt(), View.MeasureSpec.EXACTLY),
+                View.MeasureSpec.makeMeasureSpec((height * density).toInt(), View.MeasureSpec.EXACTLY))
+            page.layout(0, 0, page.measuredWidth, page.measuredHeight)
+            val card = page.getChildAt(0)
+            assertEquals(page.paddingBottom, page.height - card.bottom)
+            assertEquals(page.paddingTop, card.top)
+        }
+    }
+
     @Test fun diagonalCardSwipesStayHorizontalButVerticalGesturesScrollThePage() {
         val controller = Robolectric.buildActivity(AddCardActivity::class.java).setup()
         val activity = controller.get()
