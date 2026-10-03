@@ -43,9 +43,8 @@
     <string name="activity_main_text_10">아직 등록한 카드가 없어요</string>
     <string name="activity_main_text_12">첫 카드를 등록하고 실적과 혜택 일정을 한곳에서 관리해 보세요.</string>
     <string name="activity_main_text_14">오른쪽 아래 + 버튼으로 시작하세요</string>
-    <string name="activity_main_text_17">MY WALLET</string>
     <string name="activity_main_text_24">이번 카드의 상태</string>
-    <string name="activity_main_text_28">카드를 누르면 상세 정보를 볼 수 있어요</string>
+    <string name="activity_main_text_28">카드를 눌러 상세 보기</string>
     <string name="activity_main_contentdescription_29">카드 추가</string>
     <string name="item_card_text_3">CARDWHEEL</string>
     <string name="item_card_text_9">실적 0%</string>

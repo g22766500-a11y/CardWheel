@@ -9,6 +9,8 @@ import android.view.LayoutInflater
 import android.view.ContextThemeWrapper
 import android.widget.TextView
 import android.widget.EditText
+import android.view.View
+import android.graphics.Rect
 import androidx.room.Room
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.textfield.TextInputLayout
@@ -29,6 +31,26 @@ import org.robolectric.annotation.SQLiteMode
 @GraphicsMode(GraphicsMode.Mode.LEGACY)
 @SQLiteMode(SQLiteMode.Mode.LEGACY)
 class CardWorkflowTest {
+    @Test fun fabHasReservedSpaceOutsideScrollableContentOnSmallScreens() {
+        val themed = ContextThemeWrapper(RuntimeEnvironment.getApplication(), R.style.Theme_CardWheel)
+        val root = LayoutInflater.from(themed).inflate(R.layout.activity_main, null) as android.view.ViewGroup
+        root.findViewById<View>(R.id.emptyState).visibility = View.GONE
+        root.findViewById<View>(R.id.walletContent).visibility = View.VISIBLE
+        val density = themed.resources.displayMetrics.density
+        for (screenHeight in listOf(480, 800)) {
+            root.measure(View.MeasureSpec.makeMeasureSpec((320 * density).toInt(), View.MeasureSpec.EXACTLY),
+                View.MeasureSpec.makeMeasureSpec((screenHeight * density).toInt(), View.MeasureSpec.EXACTLY))
+            root.layout(0, 0, root.measuredWidth, root.measuredHeight)
+            val scroll = root.findViewById<androidx.core.widget.NestedScrollView>(R.id.mainScroll)
+            val scrollBounds = Rect(0, 0, scroll.width, scroll.height)
+            root.offsetDescendantRectToMyCoords(scroll, scrollBounds)
+            val fab = root.findViewById<View>(R.id.fabAdd)
+            val fabBounds = Rect(0, 0, fab.width, fab.height)
+            root.offsetDescendantRectToMyCoords(fab, fabBounds)
+            assertTrue(scrollBounds.bottom <= fabBounds.top)
+        }
+    }
+
     @Test fun dateSelectionSurvivesRecreationAndCanBeCleared() {
         val controller = Robolectric.buildActivity(AddCardActivity::class.java).setup()
         val activity = controller.get()

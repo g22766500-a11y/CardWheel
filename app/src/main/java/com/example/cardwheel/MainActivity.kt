@@ -4,6 +4,7 @@ import android.content.Intent
 import android.app.Activity
 import android.os.Bundle
 import android.view.View
+import android.view.LayoutInflater
 import android.widget.TextView
 import androidx.viewpager2.widget.ViewPager2
 import androidx.activity.result.contract.ActivityResultContracts
@@ -15,6 +16,7 @@ class MainActivity : BaseActivity() {
     private lateinit var pager: ViewPager2
     private lateinit var adapter: CardAdapter
     private var selectedId = -1
+    private var measuredWidth = 0
     private val addCard = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
         if (result.resultCode == Activity.RESULT_OK) {
             selectedId = -1
@@ -27,7 +29,10 @@ class MainActivity : BaseActivity() {
         setup(R.layout.activity_main)
         selectedId = savedInstanceState?.getInt("selectedId", -1) ?: -1
         pager = findViewById(R.id.viewPager)
-        pager.layoutParams.height = ((360f + (resources.configuration.fontScale - 1f).coerceAtLeast(0f) * 240f) * resources.displayMetrics.density).toInt()
+        pager.addOnLayoutChangeListener { _, left, _, right, _, _, _, _, _ ->
+            val width = right - left
+            if (width > 0 && width != measuredWidth) resizePager(width)
+        }
         adapter = CardAdapter { startActivity(Intent(this, CardDetailActivity::class.java).putExtra("cardId", it.id)) }
         pager.adapter = adapter
         pager.setPageTransformer { page, position ->
@@ -54,6 +59,7 @@ class MainActivity : BaseActivity() {
             findViewById<View>(R.id.btnRetry).visibility = View.GONE
             val targetId = selectedId
             cards.clear(); cards.addAll(loaded); adapter.submitItems(loaded)
+            resizePager(pager.width)
             val empty = cards.isEmpty()
             findViewById<View>(R.id.emptyState).visibility = if (empty) View.VISIBLE else View.GONE
             findViewById<View>(R.id.walletContent).visibility = if (empty) View.GONE else View.VISIBLE
@@ -69,5 +75,24 @@ class MainActivity : BaseActivity() {
         findViewById<TextView>(R.id.tvSelected).text = card?.let {
             "${CardDisplay.status(it)}\n실적 마감 ${CardDisplay.schedule(it.spendDeadline)}"
         } ?: ""
+    }
+    private fun resizePager(width: Int) {
+        if (width <= 0) return
+        measuredWidth = width
+        val sample = LayoutInflater.from(this).inflate(R.layout.item_card, pager, false)
+        val examples = cards.ifEmpty { listOf(CardItem(company = "카드사", cardName = "카드명")) }
+        val height = examples.maxOf { card ->
+            sample.findViewById<TextView>(R.id.tvCompany).text = card.company
+            sample.findViewById<TextView>(R.id.tvCardName).text = card.cardName
+            sample.findViewById<TextView>(R.id.tvProgress).text = if (card.requiredSpend > 0)
+                "실적 ${CardDisplay.progress(card)}%" else "실적 조건 미설정"
+            sample.findViewById<TextView>(R.id.tvReward).text = getString(R.string.card_reward, CardDisplay.money(card.rewardAmount.toLong()))
+            sample.measure(View.MeasureSpec.makeMeasureSpec(width, View.MeasureSpec.EXACTLY),
+                View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED))
+            sample.measuredHeight
+        }
+        if (height > 0 && pager.layoutParams.height != height) {
+            pager.layoutParams = pager.layoutParams.apply { this.height = height }
+        }
     }
 }
