@@ -32,6 +32,39 @@ import org.robolectric.annotation.SQLiteMode
 @GraphicsMode(GraphicsMode.Mode.LEGACY)
 @SQLiteMode(SQLiteMode.Mode.LEGACY)
 class CardWorkflowTest {
+    @Test fun actualPagerKeepsTheFirstCardSizeAfterForwardAndBackwardPageChanges() {
+        val controller = Robolectric.buildActivity(MainActivity::class.java).create().start()
+        val activity = controller.get()
+        val root = activity.findViewById<android.view.ViewGroup>(R.id.root)
+        root.findViewById<View>(R.id.emptyState).visibility = View.GONE
+        root.findViewById<View>(R.id.walletContent).visibility = View.VISIBLE
+        val pager = root.findViewById<androidx.viewpager2.widget.ViewPager2>(R.id.viewPager)
+        (pager.adapter as CardAdapter).submitItems(listOf(
+            CardItem(id = 1, company = "카드사", cardName = "짧은 이름"),
+            CardItem(id = 2, company = "다른 카드사", cardName = "두 줄로 표시되는 아주 긴 카드 이름입니다")
+        ))
+        val density = activity.resources.displayMetrics.density
+        fun dimensions(): Pair<Int, Int> {
+            root.measure(View.MeasureSpec.makeMeasureSpec((360 * density).toInt(), View.MeasureSpec.EXACTLY),
+                View.MeasureSpec.makeMeasureSpec((800 * density).toInt(), View.MeasureSpec.EXACTLY))
+            root.layout(0, 0, root.measuredWidth, root.measuredHeight)
+            val recycler = pager.getChildAt(0) as androidx.recyclerview.widget.RecyclerView
+            val holder = recycler.findViewHolderForAdapterPosition(pager.currentItem)!!
+            val card = (holder.itemView as android.view.ViewGroup).getChildAt(0)
+            return card.width to card.height
+        }
+        val first = dimensions()
+        assertTrue(first.first > 0 && first.second > 0)
+        val viewport = pager.height
+        pager.setCurrentItem(1, false)
+        assertEquals(first, dimensions())
+        assertEquals(viewport, pager.height)
+        pager.setCurrentItem(0, false)
+        assertEquals(first, dimensions())
+        assertEquals(viewport, pager.height)
+        controller.stop().destroy()
+    }
+
     @Test fun cardBottomSpacingDoesNotChangeWhenPagerHeightChanges() {
         val themed = ContextThemeWrapper(RuntimeEnvironment.getApplication(), R.style.Theme_CardWheel)
         val page = LayoutInflater.from(themed).inflate(R.layout.item_card, null) as android.view.ViewGroup
