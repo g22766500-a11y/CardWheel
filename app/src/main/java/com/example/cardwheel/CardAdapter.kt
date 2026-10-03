@@ -1,5 +1,7 @@
 package com.example.cardwheel
 
+import android.graphics.Color
+import android.graphics.drawable.GradientDrawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -30,6 +32,18 @@ class CardAdapter(private val onClick: (CardItem) -> Unit) : RecyclerView.Adapte
     override fun onBindViewHolder(holder: Holder, position: Int) {
         val card = items[position]
         with(holder.itemView) {
+            val palette = IssuerCatalog.palette(card.company)
+            findViewById<View>(R.id.cardContent).background = GradientDrawable(
+                GradientDrawable.Orientation.TL_BR, intArrayOf(Color.parseColor(palette.start), Color.parseColor(palette.end))
+            ).apply { cornerRadius = 22f * resources.displayMetrics.density }
+            val foreground = Color.parseColor(if (palette.light) "#322A16" else "#FFFFFF")
+            val secondary = Color.parseColor(if (palette.light) "#514322" else "#E2E8F6")
+            listOf(R.id.tvCardName, R.id.tvProgress).forEach { findViewById<TextView>(it).setTextColor(foreground) }
+            listOf(R.id.tvBrand, R.id.tvCompany, R.id.tvReward).forEach { findViewById<TextView>(it).setTextColor(secondary) }
+            findViewById<LinearProgressIndicator>(R.id.progressSpend).apply {
+                setIndicatorColor(if (palette.light) foreground else Color.WHITE)
+                trackColor = Color.parseColor(if (palette.light) "#D2AB47" else "#55FFFFFF")
+            }
             findViewById<TextView>(R.id.tvCompany).text = card.company
             findViewById<TextView>(R.id.tvCardName).text = card.cardName
             findViewById<TextView>(R.id.tvProgress).text = if (card.requiredSpend > 0) "실적 ${CardDisplay.progress(card)}%" else "실적 조건 미설정"

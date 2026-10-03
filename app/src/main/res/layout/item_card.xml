@@ -2,7 +2,7 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" android:layout_width="match_parent" android:layout_height="match_parent" android:padding="8dp" android:focusable="true">
     <com.google.android.material.card.MaterialCardView android:layout_width="match_parent" android:layout_height="match_parent" app:cardCornerRadius="22dp" app:cardElevation="1dp" app:strokeWidth="0dp">
         <LinearLayout android:id="@+id/cardContent" android:layout_width="match_parent" android:layout_height="match_parent" android:orientation="vertical" android:padding="24dp" android:background="@drawable/card_gradient">
-            <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/item_card_text_3" android:textSize="11sp" android:textColor="#B8C7EF" android:lineSpacingExtra="3dp" android:letterSpacing="0.18" />
+            <TextView android:id="@+id/tvBrand" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/item_card_text_3" android:textSize="11sp" android:textColor="#B8C7EF" android:lineSpacingExtra="3dp" android:letterSpacing="0.18" />
             <Space android:layout_width="1dp" android:layout_height="20dp" />
             <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/activity_card_detail_text_4" android:textSize="14sp" android:textColor="#CCD6EF" android:lineSpacingExtra="3dp" android:id="@+id/tvCompany" android:maxLines="1" android:ellipsize="end" />
             <Space android:layout_width="1dp" android:layout_height="4dp" />

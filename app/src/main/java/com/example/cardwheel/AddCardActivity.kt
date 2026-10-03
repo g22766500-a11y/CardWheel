@@ -4,6 +4,8 @@ import android.app.Activity
 import android.app.DatePickerDialog
 import android.os.Bundle
 import android.view.View
+import android.widget.ArrayAdapter
+import com.google.android.material.textfield.MaterialAutoCompleteTextView
 import android.widget.EditText
 import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
@@ -30,6 +32,10 @@ class AddCardActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState); setup(R.layout.activity_add_card)
+        findViewById<MaterialAutoCompleteTextView>(R.id.etCompany).apply {
+            setAdapter(ArrayAdapter(this@AddCardActivity, android.R.layout.simple_dropdown_item_1line, IssuerCatalog.names))
+            setOnClickListener { if (isEnabled) showDropDown() }
+        }
         saveModel = ViewModelProvider(this)[SaveCardViewModel::class.java]
         saving = saveModel.state.value == 1
         val toolbar = findViewById<MaterialToolbar>(R.id.toolbar)
@@ -56,7 +62,10 @@ class AddCardActivity : BaseActivity() {
                 original = existing
                 if (savedInstanceState == null) {
                     val values = listOf(existing.company, existing.cardName, existing.requiredSpend.toString(), existing.currentSpend.toString(), existing.rewardAmount.toString(), existing.memo)
-                    inputIds.forEachIndexed { index, id -> input(id).setText(values[index]) }
+                    inputIds.forEachIndexed { index, id ->
+                        if (id == R.id.etCompany) findViewById<MaterialAutoCompleteTextView>(id).setText(values[index], false)
+                        else input(id).setText(values[index])
+                    }
                     listOf(existing.issueDate, existing.spendDeadline, existing.rewardDate, existing.cancelDate, existing.nextEligibleDate).forEachIndexed { i, value -> dates[i] = value }
                 }
                 baseline = savedInstanceState?.getString("baseline") ?: snapshot()
@@ -84,7 +93,7 @@ class AddCardActivity : BaseActivity() {
         outState.putString("baseline", baseline); super.onSaveInstanceState(outState)
     }
     private fun enableForm(value: Boolean) {
-        (inputIds + dateIds + R.id.btnSave).forEach { findViewById<View>(it).isEnabled = value }
+        (inputIds + dateIds + R.id.btnSave + R.id.tilCompany).forEach { findViewById<View>(it).isEnabled = value }
         findViewById<MaterialButton>(R.id.btnSave).text = if (saving) "저장 중…" else if (cardId == -1) "카드 등록하기" else "변경 사항 저장"
     }
     private fun renderDates() {

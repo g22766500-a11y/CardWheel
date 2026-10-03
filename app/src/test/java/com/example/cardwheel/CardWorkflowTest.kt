@@ -32,6 +32,34 @@ import org.robolectric.annotation.SQLiteMode
 @GraphicsMode(GraphicsMode.Mode.LEGACY)
 @SQLiteMode(SQLiteMode.Mode.LEGACY)
 class CardWorkflowTest {
+    @Test fun issuerDropdownPreservesCustomNamesAndRecycledCardsResetTheirColors() {
+        val controller = Robolectric.buildActivity(AddCardActivity::class.java).setup()
+        val activity = controller.get()
+        val company = activity.findViewById<com.google.android.material.textfield.MaterialAutoCompleteTextView>(R.id.etCompany)
+        assertEquals(12, company.adapter.count)
+        company.setText("직접 입력한 카드사", false)
+        assertEquals("직접 입력한 카드사", company.text.toString())
+        val adapter = CardAdapter { }
+        adapter.submitItems(listOf(CardItem(id = 1, company = "KB 국민카드", cardName = "노란 카드"), CardItem(id = 2, company = "삼성카드", cardName = "파란 카드")))
+        val holder = adapter.onCreateViewHolder(android.widget.FrameLayout(activity), 0)
+        adapter.onBindViewHolder(holder, 0)
+        assertEquals(android.graphics.Color.parseColor("#322A16"), holder.itemView.findViewById<android.widget.TextView>(R.id.tvCardName).currentTextColor)
+        adapter.onBindViewHolder(holder, 1)
+        assertEquals(android.graphics.Color.WHITE, holder.itemView.findViewById<android.widget.TextView>(R.id.tvCardName).currentTextColor)
+        val background = holder.itemView.findViewById<View>(R.id.cardContent).background as android.graphics.drawable.GradientDrawable
+        assertArrayEquals(intArrayOf(android.graphics.Color.parseColor("#17539A"), android.graphics.Color.parseColor("#142F59")), background.colors)
+        controller.pause().stop().destroy()
+    }
+
+    @Test fun issuerAliasesUseTheSamePaletteAndUnknownCompaniesHaveAFallback() {
+        assertEquals(IssuerCatalog.palette("KB국민카드"), IssuerCatalog.palette("국민카드"))
+        assertEquals(IssuerCatalog.palette("BC카드"), IssuerCatalog.palette("bc"))
+        assertEquals(IssuerCatalog.palette("NH농협카드"), IssuerCatalog.palette("농협"))
+        assertEquals(IssuerCatalog.palette(""), IssuerCatalog.palette("나의 카드사"))
+        assertFalse(IssuerCatalog.palette("신한카드").light)
+        assertTrue(IssuerCatalog.palette("KB국민카드").light)
+    }
+
     @Test fun actualPagerKeepsTheFirstCardSizeAfterForwardAndBackwardPageChanges() {
         val controller = Robolectric.buildActivity(MainActivity::class.java).create().start()
         val activity = controller.get()

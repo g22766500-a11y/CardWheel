@@ -52,4 +52,5 @@
     <string name="card_reward">이벤트 혜택  %1$s</string>
     <string name="wallet_summary">%1$d개의 카드 · 예상 혜택 %2$s</string>
     <string name="card_saved">카드를 등록했어요.</string>
+    <string name="issuer_helper">목록에서 선택하거나 직접 입력하세요</string>
 </resources>
