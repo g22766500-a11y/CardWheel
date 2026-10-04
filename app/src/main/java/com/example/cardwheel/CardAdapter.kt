@@ -35,7 +35,7 @@ class CardAdapter(private val onClick: (CardItem) -> Unit) : RecyclerView.Adapte
             val palette = IssuerCatalog.palette(card.company)
             findViewById<View>(R.id.cardContent).background = GradientDrawable(
                 GradientDrawable.Orientation.TL_BR, intArrayOf(Color.parseColor(palette.start), Color.parseColor(palette.end))
-            ).apply { cornerRadius = 22f * resources.displayMetrics.density }
+            ).apply { cornerRadius = 16f * resources.displayMetrics.density }
             val foreground = Color.parseColor(if (palette.light) "#322A16" else "#FFFFFF")
             val secondary = Color.parseColor(if (palette.light) "#514322" else "#E2E8F6")
             listOf(R.id.tvCardName, R.id.tvProgress).forEach { findViewById<TextView>(it).setTextColor(foreground) }

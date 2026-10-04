@@ -35,11 +35,6 @@ class MainActivity : BaseActivity() {
         selectedId = savedInstanceState?.getInt("selectedId", -1) ?: -1
         pager = findViewById(R.id.viewPager)
         (pager.getChildAt(0) as RecyclerView).isNestedScrollingEnabled = false
-        // Decide the viewport once. Page changes never resize the card surface.
-        val extraForFont = (resources.configuration.fontScale - 1f).coerceAtLeast(0f) * 260f
-        pager.layoutParams = pager.layoutParams.apply {
-            height = ((300f + extraForFont) * resources.displayMetrics.density).toInt()
-        }
         adapter = CardAdapter { startActivity(Intent(this, CardDetailActivity::class.java).putExtra("cardId", it.id)) }
         pager.adapter = adapter
         pager.setPageTransformer { page, position ->

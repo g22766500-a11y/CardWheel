@@ -83,6 +83,10 @@ class CardWorkflowTest {
         }
         val first = dimensions()
         assertTrue(first.first > 0 && first.second > 0)
+        assertEquals(1.586, first.first.toDouble() / first.second, 0.02)
+        val chip = ((pager.getChildAt(0) as androidx.recyclerview.widget.RecyclerView).findViewHolderForAdapterPosition(0)!!.itemView).findViewById<View>(R.id.cardChip)
+        assertEquals(View.VISIBLE, chip.visibility)
+        assertNotNull((chip as android.widget.ImageView).drawable)
         val viewport = pager.height
         pager.setCurrentItem(1, false)
         assertEquals(first, dimensions())

@@ -18,7 +18,9 @@
                 </LinearLayout>
                 <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:id="@+id/walletContent" android:visibility="gone">
                     <Space android:layout_width="1dp" android:layout_height="20dp" />
-                    <androidx.viewpager2.widget.ViewPager2 android:id="@+id/viewPager" android:layout_width="match_parent" android:layout_height="300dp" />
+                    <com.example.cardwheel.WalletCardViewport android:layout_width="match_parent" android:layout_height="wrap_content">
+                        <androidx.viewpager2.widget.ViewPager2 android:id="@+id/viewPager" android:layout_width="match_parent" android:layout_height="match_parent" />
+                    </com.example.cardwheel.WalletCardViewport>
                     <Space android:layout_width="1dp" android:layout_height="4dp" />
                     <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical" android:paddingTop="4dp" android:paddingBottom="4dp" android:paddingStart="8dp" android:paddingEnd="8dp">
                         <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:text="@string/activity_main_text_28" android:textSize="12sp" android:textColor="@color/muted" android:lineSpacingExtra="3dp" android:gravity="start" android:layout_weight="1" />
