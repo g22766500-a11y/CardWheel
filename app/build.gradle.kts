@@ -14,14 +14,15 @@ android {
         applicationId = "com.example.cardwheel"
         minSdk = 24
         targetSdk = 37
-        versionCode = 8
-        versionName = "1.1.6"
+        versionCode = 9
+        versionName = "1.2.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
         release {
+            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
             optimization {
                 enable = true
                 packageScope = setOf(
@@ -36,7 +37,9 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
+        isCoreLibraryDesugaringEnabled = true
     }
+    packaging { resources { merges += "META-INF/services/**" } }
     testOptions { unitTests.isIncludeAndroidResources = true }
 }
 
@@ -46,6 +49,8 @@ dependencies {
     implementation(libs.androidx.constraintlayout)
     implementation(libs.androidx.core.ktx)
     implementation(libs.material)
+    implementation("org.mariadb.jdbc:mariadb-java-client:3.5.10")
+    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.1.5")
 
     implementation("androidx.viewpager2:viewpager2:1.1.0")
 
@@ -54,6 +59,7 @@ dependencies {
     ksp(libs.androidx.room.compiler)
 
     testImplementation(libs.junit)
+    testImplementation("com.h2database:h2:2.4.240")
     testImplementation("org.robolectric:robolectric:4.16.1")
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(libs.androidx.junit)

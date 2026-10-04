@@ -3,7 +3,10 @@
     <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent" android:orientation="vertical">
         <com.example.cardwheel.WalletScrollView android:id="@+id/mainScroll" android:layout_width="match_parent" android:layout_height="0dp" android:fillViewport="true" android:clipToPadding="true" android:layout_weight="1">
             <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="24dp" android:paddingBottom="20dp" android:paddingTop="20dp">
-                <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/app_name" android:textSize="26sp" android:textColor="@color/ink" android:lineSpacingExtra="3dp" android:textStyle="bold" />
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical">
+                <TextView android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="@string/app_name" android:textSize="26sp" android:textColor="@color/ink" android:lineSpacingExtra="3dp" android:textStyle="bold" />
+<com.google.android.material.button.MaterialButton android:id="@+id/btnBackup" style="@style/Widget.Material3.Button.TextButton" android:layout_width="wrap_content" android:layout_height="wrap_content" android:minHeight="48dp" android:text="@string/backup_short" />
+</LinearLayout>
                 <Space android:layout_width="1dp" android:layout_height="6dp" />
                 <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/activity_main_text_5" android:textSize="14sp" android:textColor="@color/muted" android:lineSpacingExtra="3dp" />
                 <Space android:layout_width="1dp" android:layout_height="20dp" />

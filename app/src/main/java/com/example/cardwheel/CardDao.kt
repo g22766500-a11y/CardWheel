@@ -5,9 +5,21 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Update
+import androidx.room.Transaction
 
 @Dao
 interface CardDao {
+    @Query("DELETE FROM cards")
+    fun deleteAll()
+
+    @Insert
+    fun insertAll(cards: List<CardItem>)
+
+    @Transaction
+    fun replaceAll(cards: List<CardItem>) {
+        deleteAll()
+        insertAll(cards)
+    }
 
     @Query(
         "SELECT * FROM cards ORDER BY id DESC"

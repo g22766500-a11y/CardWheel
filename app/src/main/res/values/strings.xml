@@ -53,4 +53,27 @@
     <string name="wallet_summary">%1$d개의 카드 · 예상 혜택 %2$s</string>
     <string name="card_saved">카드를 등록했어요.</string>
     <string name="issuer_helper">목록에서 선택하거나 직접 입력하세요</string>
+    <string name="backup_title">백업과 복원</string>
+    <string name="backup_intro">카드를 서버에 보관하고 다른 기기에서 불러올 수 있어요. 자동 동기화 없이 직접 백업합니다.</string>
+    <string name="backup_url">DB 서버 주소 (도메인 또는 IP)</string>
+    <string name="backup_token">DB 비밀번호</string>
+    <string name="backup_no_connection">저장된 접속 정보 없음</string>
+    <string name="backup_connection">연결 확인 및 저장</string>
+    <string name="backup_disconnect">이 기기의 접속 정보 지우기</string>
+    <string name="backup_upload">서버에 백업</string>
+    <string name="backup_restore">서버 백업 불러오기</string>
+    <string name="backup_undo">이전 카드로 되돌리기</string>
+    <string name="backup_preview">적용할 카드 목록</string>
+    <string name="backup_apply">이 목록으로 적용</string>
+    <string name="backup_cancel">취소</string>
+    <string name="backup_short">백업</string>
+    <string name="backup_db_port">포트</string>
+    <string name="backup_db_name">DB 이름</string>
+    <string name="backup_db_user">DB 계정</string>
+    <string name="backup_tls">연결 암호화 (TLS)</string>
+    <string name="backup_tls_note">일반 연결은 통신 내용을 암호화하지 않습니다. TLS를 켜면 서버 인증서를 검증합니다.</string>
+    <string name="backup_cert_choose">서버 인증서 선택 (선택 사항)</string>
+    <string name="backup_cert_clear">선택한 인증서 지우기</string>
+    <string name="backup_cert_none">별도 인증서 없음 · TLS 사용 시 기본 신뢰 인증서로 검증</string>
+    <string name="backup_intro_direct">기존 MariaDB에 직접 연결해 카드를 백업하고 불러옵니다. 추가 서버 프로그램은 필요하지 않아요.</string>
 </resources>

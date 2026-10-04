@@ -32,6 +32,7 @@ class MainActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setup(R.layout.activity_main)
+        findViewById<View>(R.id.btnBackup).setOnClickListener { startActivity(Intent(this, BackupActivity::class.java)) }
         selectedId = savedInstanceState?.getInt("selectedId", -1) ?: -1
         pager = findViewById(R.id.viewPager)
         (pager.getChildAt(0) as RecyclerView).isNestedScrollingEnabled = false
