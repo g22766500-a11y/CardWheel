@@ -13,6 +13,12 @@ import com.google.android.material.textfield.TextInputEditText
 
 class BackupActivity : BaseActivity() {
     private lateinit var model: BackupViewModel
+    private val saveBackup = registerForActivityResult(ActivityResultContracts.CreateDocument("application/json")) { uri ->
+        if (uri != null && model.state.value?.busy != true) model.saveFile(uri)
+    }
+    private val openBackup = registerForActivityResult(ActivityResultContracts.OpenDocument()) { uri ->
+        if (uri != null && model.state.value?.busy != true) model.previewFile(uri)
+    }
     private val chooseCertificate = registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
         if (uri != null && model.state.value?.busy != true) {
             try {
@@ -37,6 +43,14 @@ class BackupActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState); setup(R.layout.activity_backup)
         model = ViewModelProvider(this)[BackupViewModel::class.java]
+        findViewById<View>(R.id.btnSaveBackupFile).setOnClickListener {
+            model.cancelPreview()
+            saveBackup.launch("CardWheel-backup-${java.time.LocalDate.now()}.json")
+        }
+        findViewById<View>(R.id.btnOpenBackupFile).setOnClickListener {
+            model.cancelPreview()
+            openBackup.launch(arrayOf("application/json", "text/plain", "application/octet-stream"))
+        }
         val host = findViewById<TextInputEditText>(R.id.etDbHost)
         val port = findViewById<TextInputEditText>(R.id.etDbPort)
         val database = findViewById<TextInputEditText>(R.id.etDbName)
@@ -63,7 +77,7 @@ class BackupActivity : BaseActivity() {
         findViewById<View>(R.id.btnApplyBackup).setOnClickListener { model.confirm() }
         findViewById<View>(R.id.btnCancelBackup).setOnClickListener { model.cancelPreview() }
         model.state.observe(this) { state ->
-            val controls = listOf(R.id.etDbHost, R.id.etDbPort, R.id.etDbName, R.id.etDbUser, R.id.etDbPassword, R.id.tilDbPassword, R.id.switchDbTls, R.id.btnChooseDbCertificate, R.id.btnClearDbCertificate, R.id.btnConnection, R.id.btnDisconnect, R.id.btnUpload, R.id.btnRestore, R.id.btnUndoRestore, R.id.btnApplyBackup, R.id.btnCancelBackup)
+            val controls = listOf(R.id.btnSaveBackupFile, R.id.btnOpenBackupFile, R.id.etDbHost, R.id.etDbPort, R.id.etDbName, R.id.etDbUser, R.id.etDbPassword, R.id.tilDbPassword, R.id.switchDbTls, R.id.btnChooseDbCertificate, R.id.btnClearDbCertificate, R.id.btnConnection, R.id.btnDisconnect, R.id.btnUpload, R.id.btnRestore, R.id.btnUndoRestore, R.id.btnApplyBackup, R.id.btnCancelBackup)
             controls.forEach { findViewById<View>(it).isEnabled = !state.busy }
             findViewById<View>(R.id.backupBusy).visibility = if (state.busy) View.VISIBLE else View.GONE
             findViewById<TextView>(R.id.tvBackupMessage).text = state.message
@@ -76,7 +90,7 @@ class BackupActivity : BaseActivity() {
                 val cards = if (upload) preview.local else preview.remote.cards
                 val target = if (upload) "서버 백업" else "이 기기의 카드 목록"
                 val replacedCount = if (upload) preview.remote.cards.size else preview.local.size
-                val date = if (preview.remote.savedAt == null) "" else "\n서버 백업일: ${CardDisplay.date(preview.remote.savedAt)}"
+                val date = if (preview.remote.savedAt == null) "" else "\n백업일: ${CardDisplay.date(preview.remote.savedAt)}"
                 val names = cards.take(12).joinToString("\n") { "• ${it.company} · ${it.cardName}" }
                 findViewById<TextView>(R.id.tvBackupPreview).text = "$target ${replacedCount}개를 아래 ${cards.size}개로 교체합니다.$date\n\n${if (cards.isEmpty()) "카드가 없는 빈 목록입니다." else names}${if (cards.size > 12) "\n외 ${cards.size - 12}개" else ""}\n\n${if (upload) "기존 서버 백업은 덮어씁니다." else "현재 기기의 카드 목록은 복원 직전 목록으로 따로 보관합니다."}"
                 findViewById<MaterialButton>(R.id.btnApplyBackup).text = if (upload) "이 목록으로 서버 백업" else "이 목록으로 기기 복원"

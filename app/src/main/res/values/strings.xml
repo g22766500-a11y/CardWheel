@@ -76,4 +76,9 @@
     <string name="backup_cert_clear">선택한 인증서 지우기</string>
     <string name="backup_cert_none">별도 인증서 없음 · TLS 사용 시 기본 신뢰 인증서로 검증</string>
     <string name="backup_intro_direct">기존 MariaDB에 직접 연결해 카드를 백업하고 불러옵니다. 추가 서버 프로그램은 필요하지 않아요.</string>
+    <string name="backup_file_title">파일 백업</string>
+    <string name="backup_file_note">카드 정보를 파일로 저장하거나 다른 기기에서 불러오세요. 파일에는 카드 정보와 메모가 암호화 없이 저장됩니다. 복원하면 현재 카드 목록을 교체하며, 이전 목록으로 되돌릴 수 있어요.</string>
+    <string name="backup_file_save">백업 파일 저장</string>
+    <string name="backup_file_open">백업 파일 불러오기</string>
+    <string name="backup_db_title">MariaDB 원격 백업</string>
 </resources>

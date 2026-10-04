@@ -29,6 +29,16 @@ class BackupTest {
         currentSpend = 1234, rewardAmount = 10000, issueDate = -1L, spendDeadline = 1735689600000L,
         rewardReceived = true, cancelled = true, memo = "한글 메모 ' \" 줄바꿈\n")
 
+    @Test fun fileBackupPreservesFieldsAndSupportsEmptySnapshots() {
+        assertEquals(listOf(card), BackupFile.read(BackupFile.encode(listOf(card)).inputStream()).cards)
+        assertTrue(BackupFile.read(BackupFile.encode(emptyList()).inputStream()).cards.isEmpty())
+    }
+    @Test fun fileBackupRejectsOversizeTrailingContentAndMalformedEncoding() {
+        val good = BackupFile.encode(listOf(card))
+        for (bytes in listOf(ByteArray(BackupCodec.MAX_BYTES + 1), good + "garbage".toByteArray(), byteArrayOf(0xc3.toByte(), 0x28))) {
+            try { BackupFile.read(bytes.inputStream()); fail("Invalid file accepted") } catch (expected: Exception) { }
+        }
+    }
     @Test fun roundTripPreservesEveryRoomFieldAndSortsIds() {
         val cards = listOf(card.copy(id = 2), card)
         val raw = BackupCodec.encode(cards)
