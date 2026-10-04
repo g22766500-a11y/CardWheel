@@ -8,4 +8,12 @@
     <color name="muted">#65718A</color>
     <color name="outline">#E2E6EF</color>
     <color name="error">#B3261E</color>
+    <color name="surface_variant">#E4E7EC</color>
+    <color name="primary_container">#E1E7FF</color>
+    <color name="on_primary_container">#18266B</color>
+    <color name="secondary">#526079</color>
+    <color name="secondary_container">#E5E9F0</color>
+    <color name="on_secondary_container">#18243D</color>
+    <color name="surface_inverse">#273142</color>
+    <color name="on_surface_inverse">#F0F2F5</color>
 </resources>
