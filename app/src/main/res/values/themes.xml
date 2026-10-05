@@ -1,6 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources>
     <style name="Theme.CardWheel" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="materialSwitchStyle">@style/Widget.CardWheel.Switch</item>
         <item name="colorPrimary">@color/primary</item>
         <item name="colorOnPrimary">@color/on_primary</item>
         <item name="colorSurfaceVariant">@color/surface_variant</item>
@@ -20,5 +21,11 @@
         <item name="android:colorBackground">@color/background</item>
         <item name="android:windowBackground">@color/background</item>
         <item name="android:fontFamily">sans</item>
+    </style>
+    <style name="Widget.CardWheel.Switch" parent="Widget.Material3.CompoundButton.MaterialSwitch">
+        <item name="android:thumb">@drawable/switch_thumb_fixed</item>
+        <item name="thumbTint">@color/switch_thumb</item>
+        <item name="trackTint">@color/switch_track</item>
+        <item name="trackDecorationTint">@color/switch_outline_tint</item>
     </style>
 </resources>

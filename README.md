@@ -1,7 +1,7 @@
-# CardWheel 1.2.1 · 파일 백업 + MariaDB 직접 연결
+# CardWheel 1.2.3 · 파일 백업 + MariaDB 직접 연결
 
 기존 XML Views + Kotlin + Room Android 앱에 MariaDB JDBC 직접 백업·복원을 적용했습니다.
-이번 테마 색상 수정 버전은 **1.2.1 / versionCode 10**입니다.
+이번 테마 색상 수정 버전은 **1.2.3 / versionCode 12**입니다.
 
 ## 시작
 
@@ -25,6 +25,10 @@
 
 ## 이번 변경
 
+- OFF에서 손잡이를 줄이는 기본 애니메이션을 고정 벡터 손잡이로 교체했습니다. 흰 원의 지름은 OFF/ON 모두 24dp이고 손잡이의 좌우 이동은 유지합니다.
+
+- 스위치 전용 스타일을 추가했습니다. OFF에서도 흰 손잡이·회색 트랙·뚜렷한 테두리를 유지하며 ON은 파란 트랙으로 구분합니다. 라이트/다크 및 비활성 상태의 색상을 명시했습니다.
+
 - Material 기본 보라색이 남던 스위치 OFF 배경과 진행률 트랙의 colorSurfaceVariant를 라이트/다크 회색으로 명시하고, 관련 컨테이너·보조 색상도 앱 팔레트로 통일했습니다.
 
 - 파일 백업·목록 미리보기·확인 후 복원·되돌리기를 추가했습니다.
@@ -47,7 +51,7 @@
 .\gradlew.bat assembleDebug testDebugUnitTest lintDebug assembleRelease
 ```
 
-검증 결과 (2026-10-04):
+검증 결과 (2026-10-05):
 
 - 디버그·릴리즈 빌드 통과. 릴리즈 APK는 서명 전 파일입니다.
 - Android 단위/화면/Room 회귀 테스트 27개 통과, 실패 0.

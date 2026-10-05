@@ -192,7 +192,17 @@ class CardWorkflowTest {
             RuntimeEnvironment.setQualifiers(mode)
             val themed: Context = ContextThemeWrapper(application, R.style.Theme_CardWheel)
             for (layout in listOf(R.layout.activity_main, R.layout.activity_card_detail, R.layout.item_card)) {
-                assertNotNull(LayoutInflater.from(themed).inflate(layout, null))
+                val view = LayoutInflater.from(themed).inflate(layout, null)
+                assertNotNull(view)
+                if (layout == R.layout.activity_card_detail) {
+                    val toggle = view.findViewById<com.google.android.material.materialswitch.MaterialSwitch>(R.id.switchReward)
+                    val off = intArrayOf(android.R.attr.state_enabled, -android.R.attr.state_checked)
+                    val disabled = intArrayOf(-android.R.attr.state_enabled, -android.R.attr.state_checked)
+                    assertEquals(android.graphics.Color.WHITE, toggle.thumbTintList!!.getColorForState(off, 0))
+                    assertEquals(themed.getColor(R.color.switch_border), toggle.trackDecorationTintList!!.getColorForState(off, 0))
+                    assertEquals(themed.getColor(R.color.switch_track_off), toggle.trackTintList!!.getColorForState(off, 0))
+                    assertTrue(android.graphics.Color.alpha(toggle.trackDecorationTintList!!.getColorForState(disabled, 0)) > 0)
+                }
             }
         }
     }
