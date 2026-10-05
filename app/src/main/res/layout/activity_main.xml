@@ -4,20 +4,21 @@
         <com.example.cardwheel.WalletScrollView android:id="@+id/mainScroll" android:layout_width="match_parent" android:layout_height="0dp" android:fillViewport="true" android:clipToPadding="true" android:layout_weight="1">
             <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="24dp" android:paddingBottom="20dp" android:paddingTop="20dp">
                 <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical">
-                <TextView android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="@string/app_name" android:textSize="26sp" android:textColor="@color/ink" android:lineSpacingExtra="3dp" android:textStyle="bold" />
-<com.google.android.material.button.MaterialButton android:id="@+id/btnBackup" style="@style/Widget.Material3.Button.TextButton" android:layout_width="wrap_content" android:layout_height="wrap_content" android:minHeight="48dp" android:text="@string/backup_short" />
-</LinearLayout>
+                    <TextView android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="@string/app_name" android:textSize="26sp" android:textColor="@color/ink" android:lineSpacingExtra="1dp" android:textStyle="bold" />
+                    <com.google.android.material.button.MaterialButton android:id="@+id/btnBackup" style="@style/Widget.Material3.Button.TextButton" android:layout_width="wrap_content" android:layout_height="wrap_content" android:minHeight="48dp" android:text="@string/backup_short" app:cornerRadius="12dp" android:textAllCaps="false" android:textSize="14sp" android:layout_marginTop="4dp" />
+                </LinearLayout>
                 <Space android:layout_width="1dp" android:layout_height="6dp" />
-                <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/activity_main_text_5" android:textSize="14sp" android:textColor="@color/muted" android:lineSpacingExtra="3dp" />
+                <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/activity_main_text_5" android:textSize="14sp" android:textColor="@color/muted" android:lineSpacingExtra="1dp" />
                 <Space android:layout_width="1dp" android:layout_height="20dp" />
-                <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/activity_main_text_7" android:textSize="14sp" android:textColor="@color/muted" android:lineSpacingExtra="3dp" android:id="@+id/tvSummary" />
-                <com.google.android.material.button.MaterialButton android:id="@+id/btnRetry" style="@style/Widget.Material3.Button" android:layout_width="match_parent" android:layout_height="wrap_content" android:minHeight="56dp" android:text="@string/activity_main_text_8" app:cornerRadius="16dp" android:visibility="gone" />
-                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:id="@+id/emptyState" android:paddingTop="100dp" android:paddingBottom="80dp">
-                    <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/activity_main_text_10" android:textSize="23sp" android:textColor="@color/ink" android:lineSpacingExtra="3dp" android:textStyle="bold" android:gravity="center" />
+                <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/activity_main_text_7" android:textSize="15sp" android:textColor="@color/ink" android:lineSpacingExtra="1dp" android:id="@+id/tvSummary" android:background="@drawable/bg_summary" android:padding="16dp" android:textStyle="bold" />
+                <com.google.android.material.button.MaterialButton android:id="@+id/btnRetry" style="@style/Widget.Material3.Button" android:layout_width="match_parent" android:layout_height="wrap_content" android:minHeight="56dp" android:text="@string/activity_main_text_8" app:cornerRadius="12dp" android:visibility="gone" android:textAllCaps="false" android:textSize="14sp" android:layout_marginTop="4dp" />
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:id="@+id/emptyState" android:paddingTop="64dp" android:paddingBottom="56dp">
+                    <ImageView android:layout_width="56dp" android:layout_height="56dp" android:layout_gravity="center_horizontal" android:layout_marginBottom="20dp" android:src="@drawable/ic_wallet" android:importantForAccessibility="no" />
+                    <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/activity_main_text_10" android:textSize="23sp" android:textColor="@color/ink" android:lineSpacingExtra="1dp" android:textStyle="bold" android:gravity="center" />
                     <Space android:layout_width="1dp" android:layout_height="12dp" />
-                    <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/activity_main_text_12" android:textSize="15sp" android:textColor="@color/muted" android:lineSpacingExtra="3dp" android:gravity="center" />
+                    <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/activity_main_text_12" android:textSize="15sp" android:textColor="@color/muted" android:lineSpacingExtra="1dp" android:gravity="center" />
                     <Space android:layout_width="1dp" android:layout_height="24dp" />
-                    <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/activity_main_text_14" android:textSize="13sp" android:textColor="@color/primary" android:lineSpacingExtra="3dp" android:gravity="center" />
+                    <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/activity_main_text_14" android:textSize="13sp" android:textColor="@color/primary" android:lineSpacingExtra="1dp" android:gravity="center" />
                 </LinearLayout>
                 <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:id="@+id/walletContent" android:visibility="gone">
                     <Space android:layout_width="1dp" android:layout_height="20dp" />
@@ -26,22 +27,21 @@
                     </com.example.cardwheel.WalletCardViewport>
                     <Space android:layout_width="1dp" android:layout_height="4dp" />
                     <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical" android:paddingTop="4dp" android:paddingBottom="4dp" android:paddingStart="8dp" android:paddingEnd="8dp">
-                        <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:text="@string/activity_main_text_28" android:textSize="12sp" android:textColor="@color/muted" android:lineSpacingExtra="3dp" android:gravity="start" android:layout_weight="1" />
-                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="" android:textSize="13sp" android:textColor="@color/muted" android:lineSpacingExtra="3dp" android:id="@+id/tvPage" android:gravity="end" android:layout_marginStart="12dp" />
+                        <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:text="@string/activity_main_text_28" android:textSize="12sp" android:textColor="@color/muted" android:lineSpacingExtra="1dp" android:gravity="start" android:layout_weight="1" />
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="" android:textSize="13sp" android:textColor="@color/primary" android:lineSpacingExtra="1dp" android:id="@+id/tvPage" android:gravity="end" android:layout_marginStart="12dp" android:background="@drawable/bg_status" android:paddingHorizontal="10dp" android:paddingVertical="5dp" />
                     </LinearLayout>
-                    <com.google.android.material.card.MaterialCardView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="12dp" app:cardCornerRadius="18dp" app:cardElevation="0dp" app:strokeWidth="1dp" app:strokeColor="@color/outline" app:cardBackgroundColor="@color/surface">
+                    <com.google.android.material.card.MaterialCardView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="12dp" app:cardCornerRadius="20dp" app:cardElevation="0dp" app:strokeWidth="0dp" app:strokeColor="@color/outline" app:cardBackgroundColor="@color/surface">
                         <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="18dp">
-                            <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/activity_main_text_24" android:textSize="16sp" android:textColor="@color/ink" android:lineSpacingExtra="3dp" android:textStyle="bold" />
+                            <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/activity_main_text_24" android:textSize="16sp" android:textColor="@color/ink" android:lineSpacingExtra="1dp" android:textStyle="bold" />
                             <Space android:layout_width="1dp" android:layout_height="10dp" />
-                            <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="" android:textSize="16sp" android:textColor="@color/ink" android:lineSpacingExtra="3dp" android:id="@+id/tvSelected" />
+                            <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="" android:textSize="15sp" android:textColor="@color/ink" android:lineSpacingExtra="1dp" android:id="@+id/tvSelected" />
                         </LinearLayout>
                     </com.google.android.material.card.MaterialCardView>
                 </LinearLayout>
             </LinearLayout>
         </com.example.cardwheel.WalletScrollView>
         <FrameLayout android:id="@+id/fabArea" android:layout_width="match_parent" android:layout_height="88dp">
-            <com.google.android.material.floatingactionbutton.FloatingActionButton android:id="@+id/fabAdd" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_gravity="center_vertical|end" android:src="@drawable/ic_add" android:contentDescription="@string/activity_main_contentdescription_29" app:backgroundTint="@color/primary" app:tint="@color/on_primary" android:layout_marginEnd="24dp" />
+            <com.google.android.material.floatingactionbutton.FloatingActionButton android:id="@+id/fabAdd" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_gravity="center_vertical|end" android:src="@drawable/ic_add" android:contentDescription="@string/activity_main_contentdescription_29" app:backgroundTint="@color/primary" app:tint="@color/on_primary" android:layout_marginEnd="24dp" app:elevation="2dp" app:pressedTranslationZ="2dp" />
         </FrameLayout>
     </LinearLayout>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
-

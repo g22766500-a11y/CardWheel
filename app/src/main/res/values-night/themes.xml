@@ -28,4 +28,8 @@
         <item name="trackTint">@color/switch_track</item>
         <item name="trackDecorationTint">@color/switch_outline_tint</item>
     </style>
+    <style name="TextAppearance.CardWheel.Toolbar" parent="TextAppearance.Material3.TitleLarge">
+        <item name="android:textSize">20sp</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+    </style>
 </resources>

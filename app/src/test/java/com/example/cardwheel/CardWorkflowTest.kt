@@ -199,9 +199,9 @@ class CardWorkflowTest {
                     val off = intArrayOf(android.R.attr.state_enabled, -android.R.attr.state_checked)
                     val disabled = intArrayOf(-android.R.attr.state_enabled, -android.R.attr.state_checked)
                     assertEquals(android.graphics.Color.WHITE, toggle.thumbTintList!!.getColorForState(off, 0))
-                    assertEquals(themed.getColor(R.color.switch_border), toggle.trackDecorationTintList!!.getColorForState(off, 0))
+                    assertEquals(android.graphics.Color.TRANSPARENT, toggle.trackDecorationTintList!!.getColorForState(off, 0))
                     assertEquals(themed.getColor(R.color.switch_track_off), toggle.trackTintList!!.getColorForState(off, 0))
-                    assertTrue(android.graphics.Color.alpha(toggle.trackDecorationTintList!!.getColorForState(disabled, 0)) > 0)
+                    assertEquals(android.graphics.Color.TRANSPARENT, toggle.trackDecorationTintList!!.getColorForState(disabled, 0))
                 }
             }
         }

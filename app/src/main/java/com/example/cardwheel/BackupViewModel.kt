@@ -7,7 +7,7 @@ import java.util.concurrent.Executors
 
 internal enum class BackupAction { UPLOAD, RESTORE, UNDO, FILE_RESTORE }
 internal data class BackupPreview(val action: BackupAction, val local: List<CardItem>, val remote: RemoteBackup)
-internal data class BackupState(val busy: Boolean = false, val message: String = "파일로 백업하거나 불러올 수 있어요. 원격 백업은 DB 접속 정보를 설정해 주세요.", val preview: BackupPreview? = null)
+internal data class BackupState(val busy: Boolean = false, val message: String = "백업 파일을 선택하면 카드 목록을 먼저 확인할 수 있어요.", val preview: BackupPreview? = null)
 
 class BackupViewModel(application: Application) : AndroidViewModel(application) {
     private val store = BackupConnectionStore(application)

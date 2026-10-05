@@ -160,12 +160,17 @@ class BackupTest {
         assertEquals(android.graphics.Color.WHITE, toggle.thumbTintList!!.getColorForState(off, 0))
         assertEquals(android.graphics.Color.WHITE, toggle.thumbTintList!!.getColorForState(on, 0))
         assertEquals(activity.getColor(R.color.switch_track_off), toggle.trackTintList!!.getColorForState(off, 0))
-        assertEquals(activity.getColor(R.color.switch_border), toggle.trackDecorationTintList!!.getColorForState(off, 0))
+        assertEquals(android.graphics.Color.TRANSPARENT, toggle.trackDecorationTintList!!.getColorForState(off, 0))
         assertNotEquals(activity.getColor(R.color.surface), toggle.trackTintList!!.getColorForState(off, 0))
         assertFalse(activity.findViewById<View>(R.id.etDbPassword).isSaveEnabled)
         assertEquals(View.GONE, activity.findViewById<View>(R.id.backupPreview).visibility)
         assertEquals("서버에 백업", activity.findViewById<TextView>(R.id.btnUpload).text.toString())
         assertEquals("서버 백업 불러오기", activity.findViewById<TextView>(R.id.btnRestore).text.toString())
+        assertEquals(View.GONE, activity.findViewById<View>(R.id.dbSettingsArea).visibility)
+        activity.findViewById<View>(R.id.btnDbSettings).performClick()
+        assertEquals(View.VISIBLE, activity.findViewById<View>(R.id.dbSettingsArea).visibility)
+        controller.recreate()
+        assertEquals(View.VISIBLE, controller.get().findViewById<View>(R.id.dbSettingsArea).visibility)
         controller.pause().stop().destroy()
     }
     private fun withDatabase(test: (BackupClient, String) -> Unit) {

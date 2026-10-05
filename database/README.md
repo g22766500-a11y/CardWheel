@@ -1,4 +1,4 @@
-# CardWheel 1.2.3 · MariaDB 직접 연결
+# CardWheel 1.3.0 · MariaDB 직접 연결
 
 추가 API 서버, Docker 컨테이너, 80/443 포트 설정 없이 기존 MariaDB에 JDBC로 직접 연결합니다. Room은 휴대폰 내부 저장소로 계속 사용하고 백업·복원할 때만 DB 연결을 열어 작업 후 닫습니다. 회원가입이나 자동 동기화는 포함하지 않습니다. 같은 DB 계정과 테이블을 사용하는 기기는 같은 카드 백업 한 개를 공유합니다.
 
@@ -61,4 +61,4 @@ YES라면 지원하며, TLS 연결 세션에서 `SHOW SESSION STATUS LIKE 'Ssl_c
 - 테이블/권한 오류: setup.sql 실행 여부, 입력한 DB 이름, 전용 계정의 세 가지 테이블 권한을 확인합니다.
 - TLS 오류: 서버의 TLS 지원과 인증서, SAN의 도메인/IP 일치 여부를 확인합니다. 일반 연결을 의도했다면 앱 TLS 옵션을 끕니다.
 
-기존 Room DB와 applicationId는 유지하고 이번 앱 버전은 **1.2.3(versionCode 12)**입니다. 기존 설치를 업데이트할 때는 같은 서명키로 빌드하세요.
+기존 Room DB와 applicationId는 유지하고 이번 앱 버전은 **1.3.0(versionCode 13)**입니다. 기존 설치를 업데이트할 때는 같은 서명키로 빌드하세요.

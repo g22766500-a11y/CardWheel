@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources>
-    <color name="primary">#B9C2FF</color>
+    <color name="primary">#A6C4FF</color>
     <color name="on_primary">#18266B</color>
     <color name="background">#101724</color>
     <color name="surface">#1B2434</color>
@@ -16,7 +16,7 @@
     <color name="on_secondary_container">#E5E9F0</color>
     <color name="surface_inverse">#E2E6EC</color>
     <color name="on_surface_inverse">#273142</color>
-    <color name="switch_track_off">#4B5768</color>
+    <color name="switch_track_off">#526173</color>
     <color name="switch_track_on">#4255DB</color>
     <color name="switch_border">#8792A3</color>
 </resources>

@@ -13,6 +13,19 @@ import com.google.android.material.textfield.TextInputEditText
 
 class BackupActivity : BaseActivity() {
     private lateinit var model: BackupViewModel
+    private var settingsExpanded = false
+    private fun renderSettings() {
+        findViewById<View>(R.id.dbSettingsArea).visibility = if (settingsExpanded) View.VISIBLE else View.GONE
+        findViewById<MaterialButton>(R.id.btnDbSettings).apply {
+            setText(if (settingsExpanded) R.string.db_settings_close else R.string.db_settings_open)
+            icon = androidx.appcompat.content.res.AppCompatResources.getDrawable(context, if (settingsExpanded) R.drawable.ic_chevron_up else R.drawable.ic_chevron_down)
+
+        }
+    }
+    override fun onSaveInstanceState(outState: Bundle) {
+        outState.putBoolean("settingsExpanded", settingsExpanded)
+        super.onSaveInstanceState(outState)
+    }
     private val saveBackup = registerForActivityResult(ActivityResultContracts.CreateDocument("application/json")) { uri ->
         if (uri != null && model.state.value?.busy != true) model.saveFile(uri)
     }
@@ -51,6 +64,9 @@ class BackupActivity : BaseActivity() {
             model.cancelPreview()
             openBackup.launch(arrayOf("application/json", "text/plain", "application/octet-stream"))
         }
+        settingsExpanded = savedInstanceState?.getBoolean("settingsExpanded") ?: false
+        renderSettings()
+        findViewById<View>(R.id.btnDbSettings).setOnClickListener { settingsExpanded = !settingsExpanded; renderSettings() }
         val host = findViewById<TextInputEditText>(R.id.etDbHost)
         val port = findViewById<TextInputEditText>(R.id.etDbPort)
         val database = findViewById<TextInputEditText>(R.id.etDbName)
@@ -77,8 +93,9 @@ class BackupActivity : BaseActivity() {
         findViewById<View>(R.id.btnApplyBackup).setOnClickListener { model.confirm() }
         findViewById<View>(R.id.btnCancelBackup).setOnClickListener { model.cancelPreview() }
         model.state.observe(this) { state ->
-            val controls = listOf(R.id.btnSaveBackupFile, R.id.btnOpenBackupFile, R.id.etDbHost, R.id.etDbPort, R.id.etDbName, R.id.etDbUser, R.id.etDbPassword, R.id.tilDbPassword, R.id.switchDbTls, R.id.btnChooseDbCertificate, R.id.btnClearDbCertificate, R.id.btnConnection, R.id.btnDisconnect, R.id.btnUpload, R.id.btnRestore, R.id.btnUndoRestore, R.id.btnApplyBackup, R.id.btnCancelBackup)
+            val controls = listOf(R.id.btnDbSettings, R.id.btnSaveBackupFile, R.id.btnOpenBackupFile, R.id.etDbHost, R.id.etDbPort, R.id.etDbName, R.id.etDbUser, R.id.etDbPassword, R.id.tilDbPassword, R.id.switchDbTls, R.id.btnChooseDbCertificate, R.id.btnClearDbCertificate, R.id.btnConnection, R.id.btnDisconnect, R.id.btnUpload, R.id.btnRestore, R.id.btnUndoRestore, R.id.btnApplyBackup, R.id.btnCancelBackup)
             controls.forEach { findViewById<View>(it).isEnabled = !state.busy }
+            listOf(R.id.btnUpload, R.id.btnRestore, R.id.btnDisconnect).forEach { findViewById<View>(it).isEnabled = !state.busy && model.configured }
             findViewById<View>(R.id.backupBusy).visibility = if (state.busy) View.VISIBLE else View.GONE
             findViewById<TextView>(R.id.tvBackupMessage).text = state.message
             findViewById<TextView>(R.id.tvSavedConnection).text = model.savedConnection?.let { "저장된 DB: ${it.address} · ${it.user}\n${if (it.tls) "TLS 인증서 검증 사용" else "일반 연결 · 통신 암호화 없음"}\n비밀번호를 비워두면 같은 계정의 저장된 비밀번호를 사용합니다." } ?: "저장된 접속 정보 없음"
