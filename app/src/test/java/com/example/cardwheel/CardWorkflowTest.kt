@@ -48,6 +48,19 @@ class CardWorkflowTest {
         assertEquals(android.graphics.Color.WHITE, holder.itemView.findViewById<android.widget.TextView>(R.id.tvCardName).currentTextColor)
         val background = holder.itemView.findViewById<View>(R.id.cardContent).background as android.graphics.drawable.GradientDrawable
         assertArrayEquals(intArrayOf(android.graphics.Color.parseColor("#17539A"), android.graphics.Color.parseColor("#142F59")), background.colors)
+        adapter.submitItems(listOf(CardItem(id = 3, company = "KB국민카드", cardName = "해지한 카드", cancelled = true)))
+        adapter.onBindViewHolder(holder, 0)
+        assertEquals(0.88f, holder.itemView.findViewById<View>(R.id.cardContent).alpha, 0.001f)
+        assertEquals("해지·탈회 완료", holder.itemView.findViewById<TextView>(R.id.tvBrand).text.toString())
+        assertNotNull(holder.itemView.findViewById<TextView>(R.id.tvBrand).background)
+        assertEquals(android.graphics.Color.WHITE, holder.itemView.findViewById<TextView>(R.id.tvCardName).currentTextColor)
+        adapter.submitItems(listOf(CardItem(id = 3, company = "KB국민카드", cardName = "해지 취소한 카드", cancelled = false)))
+        adapter.onBindViewHolder(holder, 0)
+        assertEquals(1f, holder.itemView.findViewById<View>(R.id.cardContent).alpha, 0.001f)
+        assertEquals(1f, holder.itemView.findViewById<View>(R.id.cardChip).alpha, 0.001f)
+        assertNull(holder.itemView.findViewById<TextView>(R.id.tvBrand).background)
+        assertEquals(0, holder.itemView.findViewById<TextView>(R.id.tvBrand).paddingLeft)
+        assertEquals(android.graphics.Color.parseColor("#322A16"), holder.itemView.findViewById<TextView>(R.id.tvCardName).currentTextColor)
         controller.pause().stop().destroy()
     }
 

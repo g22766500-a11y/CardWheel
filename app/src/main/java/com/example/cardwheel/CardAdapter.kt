@@ -33,16 +33,31 @@ class CardAdapter(private val onClick: (CardItem) -> Unit) : RecyclerView.Adapte
         val card = items[position]
         with(holder.itemView) {
             val palette = IssuerCatalog.palette(card.company)
-            findViewById<View>(R.id.cardContent).background = GradientDrawable(
-                GradientDrawable.Orientation.TL_BR, intArrayOf(Color.parseColor(palette.start), Color.parseColor(palette.end))
+            val content = findViewById<View>(R.id.cardContent)
+            content.alpha = if (card.cancelled) 0.88f else 1f
+            findViewById<View>(R.id.cardChip).alpha = if (card.cancelled) 0.42f else 1f
+            content.background = GradientDrawable(
+                GradientDrawable.Orientation.TL_BR, if (card.cancelled) intArrayOf(Color.parseColor("#475569"), Color.parseColor("#334155")) else intArrayOf(Color.parseColor(palette.start), Color.parseColor(palette.end))
             ).apply { cornerRadius = 16f * resources.displayMetrics.density }
-            val foreground = Color.parseColor(if (palette.light) "#322A16" else "#FFFFFF")
-            val secondary = Color.parseColor(if (palette.light) "#514322" else "#E2E8F6")
+            val foreground = Color.parseColor(if (palette.light && !card.cancelled) "#322A16" else "#FFFFFF")
+            val secondary = Color.parseColor(if (card.cancelled) "#F1F5F9" else if (palette.light) "#514322" else "#E2E8F6")
             listOf(R.id.tvCardName, R.id.tvProgress).forEach { findViewById<TextView>(it).setTextColor(foreground) }
             listOf(R.id.tvBrand, R.id.tvCompany, R.id.tvReward).forEach { findViewById<TextView>(it).setTextColor(secondary) }
             findViewById<LinearProgressIndicator>(R.id.progressSpend).apply {
-                setIndicatorColor(if (palette.light) foreground else Color.WHITE)
-                trackColor = Color.parseColor(if (palette.light) "#D2AB47" else "#55FFFFFF")
+                setIndicatorColor(if (palette.light && !card.cancelled) foreground else Color.WHITE)
+                trackColor = Color.parseColor(if (palette.light && !card.cancelled) "#D2AB47" else "#55FFFFFF")
+            }
+            findViewById<TextView>(R.id.tvBrand).apply {
+                text = context.getString(if (card.cancelled) R.string.card_cancelled_badge else R.string.item_card_text_3)
+                textSize = if (card.cancelled) 11f else 9f
+                letterSpacing = if (card.cancelled) 0f else 0.12f
+                background = if (card.cancelled) GradientDrawable().apply {
+                    setColor(Color.parseColor("#33FFFFFF"))
+                    cornerRadius = 8f * resources.displayMetrics.density
+                } else null
+                val horizontal = if (card.cancelled) (8 * resources.displayMetrics.density).toInt() else 0
+                val vertical = if (card.cancelled) (4 * resources.displayMetrics.density).toInt() else 0
+                setPadding(horizontal, vertical, horizontal, vertical)
             }
             findViewById<TextView>(R.id.tvCompany).text = card.company
             findViewById<TextView>(R.id.tvCardName).text = card.cardName
