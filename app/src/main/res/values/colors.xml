@@ -1,22 +1,22 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources>
-    <color name="primary">#335CEB</color>
+    <color name="primary">#526E8A</color>
     <color name="on_primary">#FFFFFF</color>
-    <color name="background">#F5F6FA</color>
+    <color name="background">#FAFBFC</color>
     <color name="surface">#FFFFFF</color>
-    <color name="ink">#18243D</color>
-    <color name="muted">#65718A</color>
-    <color name="outline">#E2E6EF</color>
+    <color name="ink">#394457</color>
+    <color name="muted">#727E8C</color>
+    <color name="outline">#E3E8EE</color>
     <color name="error">#B3261E</color>
-    <color name="surface_variant">#E4E7EC</color>
-    <color name="primary_container">#E1E7FF</color>
-    <color name="on_primary_container">#18266B</color>
-    <color name="secondary">#526079</color>
-    <color name="secondary_container">#E5E9F0</color>
-    <color name="on_secondary_container">#18243D</color>
+    <color name="surface_variant">#E8EDF2</color>
+    <color name="primary_container">#EAF0F6</color>
+    <color name="on_primary_container">#445E78</color>
+    <color name="secondary">#677C61</color>
+    <color name="secondary_container">#EEF3ED</color>
+    <color name="on_secondary_container">#52684D</color>
     <color name="surface_inverse">#273142</color>
     <color name="on_surface_inverse">#F0F2F5</color>
-    <color name="switch_track_off">#A8B3C2</color>
-    <color name="switch_track_on">#4255DB</color>
+    <color name="switch_track_off">#A3AEB9</color>
+    <color name="switch_track_on">#526E8A</color>
     <color name="switch_border">#748093</color>
-</resources>
+<color name="summary_surface">#F9EEE5</color><color name="summary_ink">#60544D</color></resources>

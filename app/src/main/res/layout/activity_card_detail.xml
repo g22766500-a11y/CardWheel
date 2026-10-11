@@ -8,7 +8,7 @@
             <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/activity_card_detail_text_6" android:textSize="26sp" android:textColor="@color/ink" android:lineSpacingExtra="1dp" android:id="@+id/tvCardName" android:textStyle="bold" />
             <Space android:layout_width="1dp" android:layout_height="10dp" />
             <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="" android:textSize="13sp" android:textColor="@color/primary" android:lineSpacingExtra="1dp" android:id="@+id/tvStatus" android:background="@drawable/bg_status" android:paddingHorizontal="12dp" android:paddingVertical="7dp" />
-            <com.google.android.material.card.MaterialCardView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="16dp" app:cardCornerRadius="20dp" app:cardElevation="0dp" app:strokeWidth="0dp" app:strokeColor="@color/outline" app:cardBackgroundColor="@color/surface">
+            <com.google.android.material.card.MaterialCardView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="16dp" app:cardCornerRadius="23dp" app:cardElevation="0dp" app:strokeWidth="0dp" app:strokeColor="@color/outline" app:cardBackgroundColor="@color/surface">
                 <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="20dp">
                     <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/activity_card_detail_text_11" android:textSize="16sp" android:textColor="@color/ink" android:lineSpacingExtra="1dp" android:textStyle="bold" />
                     <Space android:layout_width="1dp" android:layout_height="16dp" />
@@ -21,7 +21,7 @@
                     <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="" android:textSize="13sp" android:textColor="@color/muted" android:lineSpacingExtra="1dp" android:id="@+id/tvRemaining" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
-            <com.google.android.material.card.MaterialCardView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="16dp" app:cardCornerRadius="20dp" app:cardElevation="0dp" app:strokeWidth="0dp" app:strokeColor="@color/outline" app:cardBackgroundColor="@color/surface">
+            <com.google.android.material.card.MaterialCardView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="16dp" app:cardCornerRadius="23dp" app:cardElevation="0dp" app:strokeWidth="0dp" app:strokeColor="@color/outline" app:cardBackgroundColor="@color/surface">
                 <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="20dp">
                     <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/activity_card_detail_text_22" android:textSize="16sp" android:textColor="@color/ink" android:lineSpacingExtra="1dp" android:textStyle="bold" />
                     <Space android:layout_width="1dp" android:layout_height="16dp" />
@@ -30,7 +30,7 @@
                     <com.google.android.material.materialswitch.MaterialSwitch android:id="@+id/switchReward" android:layout_width="match_parent" android:layout_height="wrap_content" android:minHeight="56dp" android:text="@string/activity_card_detail_text_26" android:enabled="false" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
-            <com.google.android.material.card.MaterialCardView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="16dp" app:cardCornerRadius="20dp" app:cardElevation="0dp" app:strokeWidth="0dp" app:strokeColor="@color/outline" app:cardBackgroundColor="@color/surface">
+            <com.google.android.material.card.MaterialCardView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="16dp" app:cardCornerRadius="23dp" app:cardElevation="0dp" app:strokeWidth="0dp" app:strokeColor="@color/outline" app:cardBackgroundColor="@color/surface">
                 <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="20dp">
                     <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/activity_add_card_text_24" android:textSize="16sp" android:textColor="@color/ink" android:lineSpacingExtra="1dp" android:textStyle="bold" />
                     <Space android:layout_width="1dp" android:layout_height="16dp" />
@@ -63,7 +63,7 @@
                     <com.google.android.material.materialswitch.MaterialSwitch android:id="@+id/switchWithdrawn" android:layout_width="match_parent" android:layout_height="wrap_content" android:minHeight="56dp" android:text="@string/card_withdrawn_badge" android:enabled="false" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
-            <com.google.android.material.card.MaterialCardView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="16dp" app:cardCornerRadius="20dp" app:cardElevation="0dp" app:strokeWidth="0dp" app:strokeColor="@color/outline" app:cardBackgroundColor="@color/surface">
+            <com.google.android.material.card.MaterialCardView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="16dp" app:cardCornerRadius="23dp" app:cardElevation="0dp" app:strokeWidth="0dp" app:strokeColor="@color/outline" app:cardBackgroundColor="@color/surface">
                 <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="20dp">
                     <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/activity_card_detail_text_54" android:textSize="16sp" android:textColor="@color/ink" android:lineSpacingExtra="1dp" android:textStyle="bold" />
                     <Space android:layout_width="1dp" android:layout_height="16dp" />
@@ -71,9 +71,9 @@
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
             <Space android:layout_width="1dp" android:layout_height="24dp" />
-            <com.google.android.material.button.MaterialButton android:id="@+id/btnEdit" style="@style/Widget.Material3.Button" android:layout_width="match_parent" android:layout_height="wrap_content" android:minHeight="56dp" android:text="@string/activity_card_detail_text_58" app:cornerRadius="12dp" android:enabled="false" android:textAllCaps="false" android:textSize="14sp" android:layout_marginTop="4dp" />
+            <com.google.android.material.button.MaterialButton android:id="@+id/btnEdit" style="@style/Widget.Material3.Button" android:layout_width="match_parent" android:layout_height="wrap_content" android:minHeight="56dp" android:text="@string/activity_card_detail_text_58" app:cornerRadius="20dp" android:enabled="false" android:textAllCaps="false" android:textSize="14sp" android:layout_marginTop="4dp" />
             <Space android:layout_width="1dp" android:layout_height="8dp" />
-            <com.google.android.material.button.MaterialButton android:id="@+id/btnDelete" style="@style/Widget.Material3.Button.TextButton" android:layout_width="match_parent" android:layout_height="wrap_content" android:minHeight="56dp" android:text="@string/activity_card_detail_text_60" app:cornerRadius="12dp" android:textColor="@color/error" android:enabled="false" android:textAllCaps="false" android:textSize="14sp" android:layout_marginTop="4dp" />
+            <com.google.android.material.button.MaterialButton android:id="@+id/btnDelete" style="@style/Widget.Material3.Button.TextButton" android:layout_width="match_parent" android:layout_height="wrap_content" android:minHeight="56dp" android:text="@string/activity_card_detail_text_60" app:cornerRadius="20dp" android:textColor="@color/error" android:enabled="false" android:textAllCaps="false" android:textSize="14sp" android:layout_marginTop="4dp" />
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 </LinearLayout>

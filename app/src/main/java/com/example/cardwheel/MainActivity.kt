@@ -104,7 +104,11 @@ class MainActivity : BaseActivity() {
             pager.setCurrentItem(cards.indexOfFirst { it.id == targetId }.coerceAtLeast(0), false)
             selectedId = cards.getOrNull(pager.currentItem)?.id ?: -1
             restoringCards = false
-            findViewById<TextView>(R.id.tvSummary).text = getString(R.string.wallet_summary, cards.size, CardDisplay.money(cards.filter { !it.cancelled && !it.withdrawn && !it.rewardReceived }.sumOf { it.rewardAmount.toLong() }))
+            val summaryText = getString(R.string.wallet_summary, cards.size, CardDisplay.money(cards.filter { !it.cancelled && !it.withdrawn && !it.rewardReceived }.sumOf { it.rewardAmount.toLong() }))
+            findViewById<TextView>(R.id.tvSummary).text = android.text.SpannableString(summaryText).apply {
+                val amountStart = summaryText.indexOf('\n') + 1
+                if (amountStart > 0) setSpan(android.text.style.RelativeSizeSpan(1.8f), amountStart, length, android.text.Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+            }
             showSelection()
     }
     private fun showSelection() {

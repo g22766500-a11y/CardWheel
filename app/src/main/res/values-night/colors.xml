@@ -1,22 +1,22 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources>
-    <color name="primary">#A6C4FF</color>
-    <color name="on_primary">#18266B</color>
-    <color name="background">#101724</color>
-    <color name="surface">#1B2434</color>
-    <color name="ink">#EEF1FA</color>
-    <color name="muted">#ADB8D0</color>
-    <color name="outline">#35425A</color>
+    <color name="primary">#B1C8DF</color>
+    <color name="on_primary">#263D54</color>
+    <color name="background">#18212B</color>
+    <color name="surface">#222E3C</color>
+    <color name="ink">#E8EDF4</color>
+    <color name="muted">#AFBCCB</color>
+    <color name="outline">#3A4A5C</color>
     <color name="error">#FFB4AB</color>
-    <color name="surface_variant">#35404F</color>
-    <color name="primary_container">#26367A</color>
-    <color name="on_primary_container">#E1E7FF</color>
-    <color name="secondary">#BCC7DB</color>
-    <color name="secondary_container">#35425A</color>
-    <color name="on_secondary_container">#E5E9F0</color>
+    <color name="surface_variant">#3B4959</color>
+    <color name="primary_container">#30465C</color>
+    <color name="on_primary_container">#C9DDF0</color>
+    <color name="secondary">#B6C8AC</color>
+    <color name="secondary_container">#354333</color>
+    <color name="on_secondary_container">#D1E1C8</color>
     <color name="surface_inverse">#E2E6EC</color>
     <color name="on_surface_inverse">#273142</color>
-    <color name="switch_track_off">#526173</color>
-    <color name="switch_track_on">#4255DB</color>
+    <color name="switch_track_off">#627184</color>
+    <color name="switch_track_on">#526E8A</color>
     <color name="switch_border">#8792A3</color>
-</resources>
+<color name="summary_surface">#3E332E</color><color name="summary_ink">#F0DACE</color></resources>
