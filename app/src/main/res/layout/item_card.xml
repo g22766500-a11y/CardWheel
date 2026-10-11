@@ -1,18 +1,22 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='utf-8'?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" android:layout_width="match_parent" android:layout_height="match_parent" android:padding="8dp" android:focusable="true">
-    <com.google.android.material.card.MaterialCardView android:layout_width="match_parent" android:layout_height="match_parent" app:cardCornerRadius="16dp" app:cardElevation="1dp" app:strokeWidth="0dp">
-        <LinearLayout android:id="@+id/cardContent" android:layout_width="match_parent" android:layout_height="match_parent" android:orientation="vertical" android:padding="16dp" android:background="@drawable/card_gradient">
-            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical">
-                <TextView android:id="@+id/tvCompany" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:textSize="12sp" android:textColor="#E2E8F6" android:maxLines="1" android:ellipsize="end" android:textStyle="bold" />
-                <TextView android:id="@+id/tvBrand" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginStart="8dp" android:text="@string/item_card_text_3" android:textSize="9sp" android:textColor="#E2E8F6" android:letterSpacing="0.12" />
-            </LinearLayout>
-            <LinearLayout android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1" android:orientation="horizontal" android:gravity="center_vertical" android:paddingTop="6dp" android:paddingBottom="6dp">
-                <ImageView android:id="@+id/cardChip" android:layout_width="40dp" android:layout_height="30dp" android:src="@drawable/ic_card_chip" android:importantForAccessibility="no" />
-                <TextView android:id="@+id/tvCardName" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:layout_marginStart="14dp" android:textSize="20sp" android:textColor="#FFFFFF" android:maxLines="2" android:ellipsize="end" android:textStyle="bold" />
-            </LinearLayout>
-            <TextView android:id="@+id/tvProgress" android:layout_width="match_parent" android:layout_height="wrap_content" android:textSize="12sp" android:textColor="#FFFFFF" android:textStyle="bold" android:maxLines="1" android:ellipsize="end" />
-            <com.google.android.material.progressindicator.LinearProgressIndicator android:id="@+id/progressSpend" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="6dp" android:progress="0" app:trackThickness="4dp" app:trackCornerRadius="2dp" app:indicatorColor="#FFFFFF" app:trackColor="#55FFFFFF" />
-            <TextView android:id="@+id/tvReward" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="8dp" android:textSize="12sp" android:textColor="#E2E8F6" android:maxLines="1" android:ellipsize="end" />
+  <com.google.android.material.card.MaterialCardView android:layout_width="match_parent" android:layout_height="match_parent" app:cardCornerRadius="16dp" app:cardElevation="1dp" app:strokeWidth="0dp" android:clipToOutline="true">
+    <FrameLayout android:layout_width="match_parent" android:layout_height="match_parent">
+      <LinearLayout android:id="@+id/cardContent" android:layout_width="match_parent" android:layout_height="match_parent" android:orientation="vertical" android:padding="16dp" android:background="@drawable/card_gradient">
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical">
+          <TextView android:id="@+id/tvCompany" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:textSize="12sp" android:textColor="#E2E8F6" android:maxLines="1" android:ellipsize="end" android:textStyle="bold" />
+          <TextView android:id="@+id/tvBrand" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginStart="8dp" android:text="@string/item_card_text_3" android:textSize="9sp" android:textColor="#E2E8F6" android:letterSpacing="0.12" />
         </LinearLayout>
-    </com.google.android.material.card.MaterialCardView>
+        <LinearLayout android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1" android:orientation="horizontal" android:gravity="center_vertical" android:paddingTop="6dp" android:paddingBottom="6dp">
+          <ImageView android:id="@+id/cardChip" android:layout_width="40dp" android:layout_height="30dp" android:src="@drawable/ic_card_chip" android:importantForAccessibility="no" />
+          <TextView android:id="@+id/tvCardName" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:layout_marginStart="14dp" android:textSize="20sp" android:textColor="#FFFFFF" android:maxLines="2" android:ellipsize="end" android:textStyle="bold" />
+        </LinearLayout>
+        <TextView android:id="@+id/tvProgress" android:layout_width="match_parent" android:layout_height="wrap_content" android:textSize="12sp" android:textColor="#FFFFFF" android:textStyle="bold" android:maxLines="1" android:ellipsize="end" />
+        <com.google.android.material.progressindicator.LinearProgressIndicator android:id="@+id/progressSpend" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="6dp" android:progress="0" app:trackThickness="4dp" app:trackCornerRadius="2dp" app:indicatorColor="#FFFFFF" app:trackColor="#55FFFFFF" />
+        <TextView android:id="@+id/tvReward" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="8dp" android:textSize="12sp" android:textColor="#E2E8F6" android:maxLines="1" android:ellipsize="end" />
+      </LinearLayout>
+      <View android:id="@+id/cancelledScrim" android:layout_width="match_parent" android:layout_height="match_parent" android:background="@drawable/bg_cancelled_scrim" android:visibility="gone" android:clickable="false" android:focusable="false" android:importantForAccessibility="no" />
+      <TextView android:id="@+id/tvCancelledBadge" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_gravity="top|end" android:layout_marginTop="12dp" android:layout_marginEnd="12dp" android:paddingHorizontal="8dp" android:paddingVertical="4dp" android:text="@string/card_cancelled_badge" android:textSize="11sp" android:textColor="#FFFFFF" android:background="@drawable/bg_cancelled_badge" android:visibility="gone" android:importantForAccessibility="no" />
+    </FrameLayout>
+  </com.google.android.material.card.MaterialCardView>
 </FrameLayout>
