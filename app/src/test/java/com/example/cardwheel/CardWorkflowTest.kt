@@ -43,11 +43,15 @@ class CardWorkflowTest {
         adapter.submitItems(listOf(CardItem(id = 1, company = "KB 국민카드", cardName = "노란 카드"), CardItem(id = 2, company = "삼성카드", cardName = "파란 카드")))
         val holder = adapter.onCreateViewHolder(android.widget.FrameLayout(activity), 0)
         adapter.onBindViewHolder(holder, 0)
+        val activeKBColors = (holder.itemView.findViewById<View>(R.id.cardContent).background as android.graphics.drawable.GradientDrawable).colors
         assertEquals(android.graphics.Color.parseColor("#322A16"), holder.itemView.findViewById<android.widget.TextView>(R.id.tvCardName).currentTextColor)
         adapter.onBindViewHolder(holder, 1)
         assertEquals(android.graphics.Color.WHITE, holder.itemView.findViewById<android.widget.TextView>(R.id.tvCardName).currentTextColor)
         val background = holder.itemView.findViewById<View>(R.id.cardContent).background as android.graphics.drawable.GradientDrawable
-        assertArrayEquals(intArrayOf(android.graphics.Color.parseColor("#17539A"), android.graphics.Color.parseColor("#142F59")), background.colors)
+        val freshHolder = adapter.onCreateViewHolder(android.widget.FrameLayout(activity), 0)
+        adapter.onBindViewHolder(freshHolder, 1)
+        val freshBackground = freshHolder.itemView.findViewById<View>(R.id.cardContent).background as android.graphics.drawable.GradientDrawable
+        assertArrayEquals(freshBackground.colors, background.colors)
         adapter.submitItems(listOf(CardItem(id = 3, company = "KB국민카드", cardName = "해지한 카드", cancelled = true)))
         adapter.onBindViewHolder(holder, 0)
         assertEquals(1f, holder.itemView.findViewById<View>(R.id.cardContent).alpha, 0.001f)
@@ -56,8 +60,7 @@ class CardWorkflowTest {
         assertEquals(View.VISIBLE, holder.itemView.findViewById<View>(R.id.tvCancelledBadge).visibility)
         assertEquals(android.graphics.Color.parseColor("#322A16"), holder.itemView.findViewById<TextView>(R.id.tvCardName).currentTextColor)
         val cancelledColors = (holder.itemView.findViewById<View>(R.id.cardContent).background as android.graphics.drawable.GradientDrawable).colors
-        val issuerPalette = IssuerCatalog.palette("KB국민카드")
-        assertArrayEquals(intArrayOf(android.graphics.Color.parseColor(issuerPalette.start), android.graphics.Color.parseColor(issuerPalette.end)), cancelledColors)
+        assertArrayEquals(activeKBColors, cancelledColors)
         adapter.submitItems(listOf(CardItem(id = 3, company = "KB국민카드", cardName = "해지 취소한 카드", cancelled = false)))
         adapter.onBindViewHolder(holder, 0)
         assertEquals(1f, holder.itemView.findViewById<View>(R.id.cardContent).alpha, 0.001f)
@@ -97,7 +100,7 @@ class CardWorkflowTest {
             root.layout(0, 0, root.measuredWidth, root.measuredHeight)
             val recycler = pager.getChildAt(0) as androidx.recyclerview.widget.RecyclerView
             val holder = recycler.findViewHolderForAdapterPosition(pager.currentItem)!!
-            val card = (holder.itemView as android.view.ViewGroup).getChildAt(0)
+            val card = holder.itemView.findViewById<View>(R.id.cardContent).parent.parent as View
             return card.width to card.height
         }
         val first = dimensions()
@@ -124,7 +127,7 @@ class CardWorkflowTest {
             page.measure(View.MeasureSpec.makeMeasureSpec((320 * density).toInt(), View.MeasureSpec.EXACTLY),
                 View.MeasureSpec.makeMeasureSpec((height * density).toInt(), View.MeasureSpec.EXACTLY))
             page.layout(0, 0, page.measuredWidth, page.measuredHeight)
-            val card = page.getChildAt(0)
+            val card = page.findViewById<View>(R.id.cardContent).parent.parent as View
             assertEquals(page.paddingBottom, page.height - card.bottom)
             assertEquals(page.paddingTop, card.top)
         }

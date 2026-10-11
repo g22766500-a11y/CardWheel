@@ -45,8 +45,8 @@ class CardAdapter(private val onClick: (CardItem) -> Unit) : RecyclerView.Adapte
             val reserve = if (card.cancelled && card.withdrawn) 140 else if (closed) 76 else 0
             header.setPaddingRelative(0, 0, (reserve * resources.displayMetrics.density).toInt(), 0)
             content.background = GradientDrawable(
-                GradientDrawable.Orientation.TL_BR, intArrayOf(Color.parseColor(palette.start), Color.parseColor(palette.end))
-            ).apply { cornerRadius = 16f * resources.displayMetrics.density }
+                GradientDrawable.Orientation.TL_BR, intArrayOf(androidx.core.graphics.ColorUtils.blendARGB(Color.parseColor(palette.start), Color.parseColor("#AAB8C6"), 0.38f), androidx.core.graphics.ColorUtils.blendARGB(Color.parseColor(palette.end), Color.parseColor("#71859A"), 0.30f))
+            ).apply { cornerRadius = 19f * resources.displayMetrics.density }
             val foreground = Color.parseColor(if (palette.light) "#322A16" else "#FFFFFF")
             val secondary = Color.parseColor(if (palette.light) "#514322" else "#E2E8F6")
             listOf(R.id.tvCardName, R.id.tvProgress).forEach { findViewById<TextView>(it).setTextColor(foreground) }
