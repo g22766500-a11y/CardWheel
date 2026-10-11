@@ -27,6 +27,8 @@ object CardDisplay {
     fun progress(card: CardItem) = if (card.requiredSpend > 0)
         (card.currentSpend.toLong() * 100 / card.requiredSpend).coerceIn(0, 100).toInt() else 0
     fun status(card: CardItem): String = when {
+        card.cancelled && card.withdrawn -> "해지 완료 · 탈회 완료"
+        card.withdrawn -> "탈회 완료"
         card.cancelled -> "해지 완료"
         card.rewardReceived -> "혜택 수령 완료"
         card.requiredSpend > 0 && card.currentSpend >= card.requiredSpend -> "실적 달성"

@@ -83,5 +83,6 @@
     <string name="backup_db_title">MariaDB 원격 백업</string>
     <string name="db_settings_open">서버 연결 설정 펼치기</string>
     <string name="db_settings_close">서버 연결 설정 접기</string>
-    <string name="card_cancelled_badge">해지·탈회 완료</string>
+    <string name="card_cancelled_badge">해지 완료</string>
+    <string name="card_withdrawn_badge">탈회 완료</string>
 </resources>

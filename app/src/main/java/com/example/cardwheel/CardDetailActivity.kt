@@ -36,6 +36,9 @@ class CardDetailActivity : BaseActivity() {
         findViewById<MaterialSwitch>(R.id.switchCancelled).setOnCheckedChangeListener { _, value ->
             if (!binding && !busy) card?.let { update(it.copy(cancelled = value)) }
         }
+        findViewById<MaterialSwitch>(R.id.switchWithdrawn).setOnCheckedChangeListener { _, value ->
+            if (!binding && !busy) card?.let { update(it.copy(withdrawn = value)) }
+        }
     }
     override fun onResume() {
         super.onResume()
@@ -45,7 +48,7 @@ class CardDetailActivity : BaseActivity() {
     }
     private fun setBusy(value: Boolean) {
         busy = value
-        listOf(R.id.btnEdit, R.id.btnDelete, R.id.switchReward, R.id.switchCancelled).forEach {
+        listOf(R.id.btnEdit, R.id.btnDelete, R.id.switchReward, R.id.switchCancelled, R.id.switchWithdrawn).forEach {
             findViewById<View>(it).isEnabled = !value && card != null
         }
     }
@@ -73,6 +76,7 @@ class CardDetailActivity : BaseActivity() {
         binding = true
         findViewById<MaterialSwitch>(R.id.switchReward).isChecked = item.rewardReceived
         findViewById<MaterialSwitch>(R.id.switchCancelled).isChecked = item.cancelled
+        findViewById<MaterialSwitch>(R.id.switchWithdrawn).isChecked = item.withdrawn
         binding = false
     }
 }

@@ -30,7 +30,7 @@ import org.robolectric.annotation.SQLiteMode
 @RunWith(RobolectricTestRunner::class)
 @Config(sdk = [35])
 @GraphicsMode(GraphicsMode.Mode.LEGACY)
-@SQLiteMode(SQLiteMode.Mode.LEGACY)
+@SQLiteMode(SQLiteMode.Mode.NATIVE)
 class CardWorkflowTest {
     @Test fun issuerDropdownPreservesCustomNamesAndRecycledCardsResetTheirColors() {
         val controller = Robolectric.buildActivity(AddCardActivity::class.java).setup()
@@ -52,7 +52,7 @@ class CardWorkflowTest {
         adapter.onBindViewHolder(holder, 0)
         assertEquals(1f, holder.itemView.findViewById<View>(R.id.cardContent).alpha, 0.001f)
         assertEquals(View.VISIBLE, holder.itemView.findViewById<View>(R.id.cancelledScrim).visibility)
-        assertEquals("해지·탈회 완료", holder.itemView.findViewById<TextView>(R.id.tvCancelledBadge).text.toString())
+        assertEquals("해지 완료", holder.itemView.findViewById<TextView>(R.id.tvCancelledBadge).text.toString())
         assertEquals(View.VISIBLE, holder.itemView.findViewById<View>(R.id.tvCancelledBadge).visibility)
         assertEquals(android.graphics.Color.parseColor("#322A16"), holder.itemView.findViewById<TextView>(R.id.tvCardName).currentTextColor)
         val cancelledColors = (holder.itemView.findViewById<View>(R.id.cardContent).background as android.graphics.drawable.GradientDrawable).colors
@@ -209,7 +209,10 @@ class CardWorkflowTest {
         val application = RuntimeEnvironment.getApplication()
         for (mode in listOf("notnight", "night")) {
             RuntimeEnvironment.setQualifiers(mode)
-            val themed: Context = ContextThemeWrapper(application, R.style.Theme_CardWheel)
+            val config = android.content.res.Configuration(application.resources.configuration)
+            config.uiMode = android.content.res.Configuration.UI_MODE_TYPE_NORMAL or
+                if (mode == "night") android.content.res.Configuration.UI_MODE_NIGHT_YES else android.content.res.Configuration.UI_MODE_NIGHT_NO
+            val themed: Context = ContextThemeWrapper(application.createConfigurationContext(config), R.style.Theme_CardWheel)
             for (layout in listOf(R.layout.activity_main, R.layout.activity_card_detail, R.layout.item_card)) {
                 val view = LayoutInflater.from(themed).inflate(layout, null)
                 assertNotNull(view)
@@ -242,7 +245,7 @@ class CardWorkflowTest {
     }
 
     @Test fun versionOneMigrationPreservesCardAndSupportsUpdateAndDelete() {
-        val context = RuntimeEnvironment.getApplication()
+        val context = DatabaseTestContext(RuntimeEnvironment.getApplication())
         val name = "migration-test.db"
         context.deleteDatabase(name)
         val path = context.getDatabasePath(name)
@@ -253,7 +256,7 @@ class CardWorkflowTest {
             old.version = 1
         }
         val database = Room.databaseBuilder(context, AppDatabase::class.java, name)
-            .addMigrations(AppDatabase.MIGRATION_1_2).allowMainThreadQueries().build()
+            .addMigrations(AppDatabase.MIGRATION_1_2, AppDatabase.MIGRATION_2_3).allowMainThreadQueries().build()
         try {
             val dao = database.cardDao()
             val migrated = dao.getById(7)!!
@@ -271,4 +274,62 @@ class CardWorkflowTest {
             assertEquals(1, dao.getAll().size)
         } finally { database.close(); context.deleteDatabase(name) }
     }
+    @Test fun closureBadgesAreIndependentAndRecycledOverlayClears() {
+        val controller = Robolectric.buildActivity(AddCardActivity::class.java).setup()
+        val adapter = CardAdapter { }
+        val holder = adapter.onCreateViewHolder(android.widget.FrameLayout(controller.get()), 0)
+        for ((cancelled, withdrawn) in listOf(false to true, true to false, true to true, false to false)) {
+            val card = CardItem(id=1, company="신한카드", cardName="상태 테스트", cancelled=cancelled, withdrawn=withdrawn)
+            adapter.submitItems(listOf(card)); adapter.onBindViewHolder(holder,0)
+            assertEquals(if (cancelled) View.VISIBLE else View.GONE, holder.itemView.findViewById<View>(R.id.tvCancelledBadge).visibility)
+            assertEquals(if (withdrawn) View.VISIBLE else View.GONE, holder.itemView.findViewById<View>(R.id.tvWithdrawnBadge).visibility)
+            assertEquals(if (cancelled || withdrawn) View.VISIBLE else View.GONE, holder.itemView.findViewById<View>(R.id.cancelledScrim).visibility)
+            if (withdrawn) assertTrue(CardDisplay.status(card).contains("탈회 완료"))
+        }
+        controller.pause().stop().destroy()
+    }
+
+    @Test fun versionTwoMigrationPreservesCancellationAndWithdrawalUpdates() {
+        val context = DatabaseTestContext(RuntimeEnvironment.getApplication())
+        val name = "migration-two-test.db"
+        context.deleteDatabase(name)
+        val path = context.getDatabasePath(name); path.parentFile!!.mkdirs()
+        SQLiteDatabase.openOrCreateDatabase(path, null).use { old ->
+            old.execSQL("CREATE TABLE cards (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, company TEXT NOT NULL, cardName TEXT NOT NULL, status TEXT NOT NULL, requiredSpend INTEGER NOT NULL DEFAULT 0, currentSpend INTEGER NOT NULL DEFAULT 0, rewardAmount INTEGER NOT NULL DEFAULT 0, issueDate INTEGER, spendDeadline INTEGER, rewardDate INTEGER, cancelDate INTEGER, nextEligibleDate INTEGER, rewardReceived INTEGER NOT NULL DEFAULT 0, cancelled INTEGER NOT NULL DEFAULT 0, memo TEXT NOT NULL DEFAULT '')")
+            old.execSQL("INSERT INTO cards (id,company,cardName,status,cancelled,memo) VALUES (7,'기존 카드사','기존 카드','',1,'기록')")
+            old.version=2
+        }
+        val db = Room.databaseBuilder(context, AppDatabase::class.java,name).addMigrations(AppDatabase.MIGRATION_2_3).allowMainThreadQueries().build()
+        try {
+            val previous = db.cardDao().getById(7)!!
+            assertTrue(previous.cancelled); assertFalse(previous.withdrawn); assertEquals("기록",previous.memo)
+            db.cardDao().update(previous.copy(withdrawn=true))
+            assertTrue(db.cardDao().getById(7)!!.withdrawn)
+        } finally { db.close(); context.deleteDatabase(name) }
+    }
+
+    @Test fun walletSortingKeepsSelectedCardAndRemembersChoice() {
+        val context = RuntimeEnvironment.getApplication()
+        val prefs = context.getSharedPreferences("wallet", android.content.Context.MODE_PRIVATE)
+        prefs.edit().clear().commit()
+        val controller = Robolectric.buildActivity(MainActivity::class.java).create().start()
+        try {
+            val activity = controller.get()
+            val display = MainActivity::class.java.getDeclaredMethod("displayCards", List::class.java).apply { isAccessible=true }
+            display.invoke(activity, listOf(CardItem(id=1, company="삼성카드", cardName="선택 카드", spendDeadline=10), CardItem(id=2, company="신한카드", cardName="다른 카드", spendDeadline=20)))
+            val pager = activity.findViewById<androidx.viewpager2.widget.ViewPager2>(R.id.viewPager)
+            pager.setCurrentItem(1,false)
+            activity.findViewById<View>(R.id.btnSort).performClick()
+            val dialog = ShadowDialog.getLatestDialog() as androidx.appcompat.app.AlertDialog
+            val list = dialog.listView
+            list.performItemClick(list.getChildAt(CardSort.DEADLINE.ordinal), CardSort.DEADLINE.ordinal, CardSort.DEADLINE.ordinal.toLong())
+            assertEquals(0,pager.currentItem)
+            assertEquals("DEADLINE",prefs.getString("sort",null))
+            assertTrue(activity.findViewById<TextView>(R.id.btnSort).text.contains("실적 마감일순"))
+            val another = Robolectric.buildActivity(MainActivity::class.java).create().start()
+            assertTrue(another.get().findViewById<TextView>(R.id.btnSort).text.contains("실적 마감일순"))
+            another.stop().destroy()
+        } finally { controller.stop().destroy(); prefs.edit().clear().commit() }
+    }
+
 }

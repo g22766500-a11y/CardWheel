@@ -14,6 +14,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 
 class MainActivity : BaseActivity() {
+    private var sort = CardSort.NEWEST
     private val cards = mutableListOf<CardItem>()
     private lateinit var pager: ViewPager2
     private lateinit var adapter: CardAdapter
@@ -34,6 +35,20 @@ class MainActivity : BaseActivity() {
         setup(R.layout.activity_main)
         findViewById<View>(R.id.btnBackup).setOnClickListener { startActivity(Intent(this, BackupActivity::class.java)) }
         selectedId = savedInstanceState?.getInt("selectedId", -1) ?: -1
+        sort = CardSort.entries.firstOrNull { it.name == getSharedPreferences("wallet", MODE_PRIVATE).getString("sort", null) } ?: CardSort.NEWEST
+        findViewById<TextView>(R.id.btnSort).text = "정렬 · ${sort.label}"
+        findViewById<View>(R.id.btnSort).setOnClickListener {
+            com.google.android.material.dialog.MaterialAlertDialogBuilder(this)
+                .setTitle("카드 정렬")
+                .setSingleChoiceItems(CardSort.entries.map { it.label }.toTypedArray(), sort.ordinal) { dialog, index ->
+                    sort = CardSort.entries[index]
+                    getSharedPreferences("wallet", MODE_PRIVATE).edit().putString("sort", sort.name).apply()
+                    findViewById<TextView>(R.id.btnSort).text = "정렬 · ${sort.label}"
+                    val next = pendingCards ?: cards.toList()
+                    if (pager.scrollState == ViewPager2.SCROLL_STATE_IDLE) displayCards(next) else pendingCards = next
+                    dialog.dismiss()
+                }.setNegativeButton("닫기", null).show()
+        }
         pager = findViewById(R.id.viewPager)
         (pager.getChildAt(0) as RecyclerView).isNestedScrollingEnabled = false
         adapter = CardAdapter { startActivity(Intent(this, CardDetailActivity::class.java).putExtra("cardId", it.id)) }
@@ -75,7 +90,8 @@ class MainActivity : BaseActivity() {
             else pendingCards = loaded
         }
     }
-    private fun displayCards(loaded: List<CardItem>) {
+    private fun displayCards(snapshot: List<CardItem>) {
+            val loaded = sort.apply(snapshot)
             findViewById<View>(R.id.btnRetry).visibility = View.GONE
             if (hasLoadedCards && cards == loaded) { showSelection(); return }
             hasLoadedCards = true
@@ -88,7 +104,7 @@ class MainActivity : BaseActivity() {
             pager.setCurrentItem(cards.indexOfFirst { it.id == targetId }.coerceAtLeast(0), false)
             selectedId = cards.getOrNull(pager.currentItem)?.id ?: -1
             restoringCards = false
-            findViewById<TextView>(R.id.tvSummary).text = getString(R.string.wallet_summary, cards.size, CardDisplay.money(cards.filter { !it.cancelled && !it.rewardReceived }.sumOf { it.rewardAmount.toLong() }))
+            findViewById<TextView>(R.id.tvSummary).text = getString(R.string.wallet_summary, cards.size, CardDisplay.money(cards.filter { !it.cancelled && !it.withdrawn && !it.rewardReceived }.sumOf { it.rewardAmount.toLong() }))
             showSelection()
     }
     private fun showSelection() {

@@ -19,16 +19,16 @@ internal object BackupCodec {
             put("issueDate", card.issueDate ?: JSONObject.NULL); put("spendDeadline", card.spendDeadline ?: JSONObject.NULL)
             put("rewardDate", card.rewardDate ?: JSONObject.NULL); put("cancelDate", card.cancelDate ?: JSONObject.NULL)
             put("nextEligibleDate", card.nextEligibleDate ?: JSONObject.NULL)
-            put("rewardReceived", card.rewardReceived); put("cancelled", card.cancelled); put("memo", card.memo)
+            put("rewardReceived", card.rewardReceived); put("cancelled", card.cancelled); put("memo", card.memo); put("withdrawn", card.withdrawn)
         }) }
-        val result = JSONObject().put("schemaVersion", 1).put("cards", array).toString()
+        val result = JSONObject().put("schemaVersion", 2).put("cards", array).toString()
         require(result.toByteArray(Charsets.UTF_8).size <= MAX_BYTES)
         // Validate outgoing snapshots too; old or corrupt rows must not overwrite a valid remote backup.
         decodeCards(JSONObject(result))
         return result
     }
     fun decodeCards(root: JSONObject): List<CardItem> {
-        require(integer(root, "schemaVersion", 1, 1) == 1L)
+        val version = integer(root, "schemaVersion", 1, 2)
         val array = root.get("cards") as? JSONArray ?: error("Invalid cards")
         require(array.length() <= MAX_CARDS)
         val ids = mutableSetOf<Int>()
@@ -40,7 +40,8 @@ internal object BackupCodec {
                 text(obj, "status", 200), integer(obj, "requiredSpend", 0, Int.MAX_VALUE.toLong()).toInt(),
                 integer(obj, "currentSpend", 0, Int.MAX_VALUE.toLong()).toInt(), integer(obj, "rewardAmount", 0, Int.MAX_VALUE.toLong()).toInt(),
                 date(obj, "issueDate"), date(obj, "spendDeadline"), date(obj, "rewardDate"), date(obj, "cancelDate"), date(obj, "nextEligibleDate"),
-                obj.get("rewardReceived") as? Boolean ?: error("Invalid flag"), obj.get("cancelled") as? Boolean ?: error("Invalid flag"), text(obj, "memo", 2000))
+                obj.get("rewardReceived") as? Boolean ?: error("Invalid flag"), obj.get("cancelled") as? Boolean ?: error("Invalid flag"), text(obj, "memo", 2000),
+                if (version == 1L && !obj.has("withdrawn")) false else obj.get("withdrawn") as? Boolean ?: error("Invalid flag"))
         }.sortedByDescending { it.id }
     }
     fun remote(raw: String): RemoteBackup {

@@ -21,13 +21,13 @@ import java.util.concurrent.Executors
 import java.util.concurrent.TimeUnit
 
 @RunWith(RobolectricTestRunner::class)
-@Config(sdk = [35])
+@Config(sdk = [35], shadows = [PortableAtomicFileShadow::class])
 @GraphicsMode(GraphicsMode.Mode.LEGACY)
-@SQLiteMode(SQLiteMode.Mode.LEGACY)
+@SQLiteMode(SQLiteMode.Mode.NATIVE)
 class BackupTest {
     private val card = CardItem(id = 7, company = "KB국민카드", cardName = "백업 카드", status = "원본 상태", requiredSpend = Int.MAX_VALUE,
         currentSpend = 1234, rewardAmount = 10000, issueDate = -1L, spendDeadline = 1735689600000L,
-        rewardReceived = true, cancelled = true, memo = "한글 메모 ' \" 줄바꿈\n")
+        rewardReceived = true, cancelled = true, withdrawn = true, memo = "한글 메모 ' \" 줄바꿈\n")
 
     @Test fun fileBackupPreservesFieldsAndSupportsEmptySnapshots() {
         assertEquals(listOf(card), BackupFile.read(BackupFile.encode(listOf(card)).inputStream()).cards)
@@ -50,7 +50,7 @@ class BackupTest {
     @Test fun rejectsOverflowDuplicateIdsInvalidFlagsAndUnknownVersions() {
         val raw = BackupCodec.encode(listOf(card))
         for (invalid in listOf(raw.replace(Int.MAX_VALUE.toString(), "2147483648"), raw.replace(Int.MAX_VALUE.toString(), "1.5"),
-            raw.replace("\"rewardReceived\":true", "\"rewardReceived\":1"), raw.replace("\"schemaVersion\":1", "\"schemaVersion\":2"))) {
+            raw.replace("\"rewardReceived\":true", "\"rewardReceived\":1"), raw.replace("\"schemaVersion\":2", "\"schemaVersion\":3"))) {
             try { BackupCodec.decodeCards(JSONObject(invalid)); fail(invalid) } catch (expected: Exception) { }
         }
         try { BackupCodec.encode(listOf(card, card)); fail() } catch (expected: Exception) { }
@@ -80,7 +80,7 @@ class BackupTest {
     }
     @Test fun restoreKeepsAnUndoSnapshotAndRejectsConcurrentLocalChanges() {
         val context = RuntimeEnvironment.getApplication() as Context
-        val directory = File(context.cacheDir, "backup-test-${UUID.randomUUID()}").apply { mkdirs() }
+        val directory = File(System.getProperty("cardwheel.test.filesDir", System.getProperty("java.io.tmpdir")), "cw-backup-${UUID.randomUUID()}").apply { mkdirs() }
         val db = Room.inMemoryDatabaseBuilder(context, AppDatabase::class.java).allowMainThreadQueries().build()
         try {
             db.cardDao().insert(card)
@@ -182,4 +182,15 @@ class BackupTest {
         try { test(BackupClient(BackupConnection("localhost", 3306, "cardwheel", "user", "password")) { java.sql.DriverManager.getConnection(url, "sa", "") }, url) }
         finally { java.sql.DriverManager.getConnection(url, "sa", "").use { it.createStatement().use { statement -> statement.execute("SHUTDOWN") } } }
     }
+    @Test fun oldSnapshotsDefaultWithdrawalToFalseAndNewSnapshotsRequireBoolean() {
+        val root = JSONObject(BackupCodec.encode(listOf(card)))
+        root.put("schemaVersion", 1)
+        root.getJSONArray("cards").getJSONObject(0).remove("withdrawn")
+        assertEquals(card.copy(withdrawn=false), BackupCodec.decodeCards(root).single())
+        root.put("schemaVersion", 2)
+        try { BackupCodec.decodeCards(root); fail("Missing withdrawal accepted") } catch (expected: Exception) { }
+        root.getJSONArray("cards").getJSONObject(0).put("withdrawn", "true")
+        try { BackupCodec.decodeCards(root); fail("Nonboolean withdrawal accepted") } catch (expected: Exception) { }
+    }
+
 }

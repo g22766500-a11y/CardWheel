@@ -47,5 +47,8 @@ data class CardItem(
     val cancelled: Boolean = false,
 
     // 메모
-    val memo: String = ""
+    val memo: String = "",
+
+    // 카드사 회원 탈회 여부: 카드 해지와 별도로 기록
+    val withdrawn: Boolean = false
 )

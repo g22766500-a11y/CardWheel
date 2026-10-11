@@ -36,9 +36,14 @@ class CardAdapter(private val onClick: (CardItem) -> Unit) : RecyclerView.Adapte
             val content = findViewById<View>(R.id.cardContent)
             content.alpha = 1f
             findViewById<View>(R.id.cardChip).alpha = 1f
-            findViewById<View>(R.id.cancelledScrim).visibility = if (card.cancelled) View.VISIBLE else View.GONE
+            findViewById<View>(R.id.cancelledScrim).visibility = if (card.cancelled || card.withdrawn) View.VISIBLE else View.GONE
             findViewById<View>(R.id.tvCancelledBadge).visibility = if (card.cancelled) View.VISIBLE else View.GONE
-            findViewById<View>(R.id.tvBrand).visibility = if (card.cancelled) View.INVISIBLE else View.VISIBLE
+            findViewById<View>(R.id.tvWithdrawnBadge).visibility = if (card.withdrawn) View.VISIBLE else View.GONE
+            val closed = card.cancelled || card.withdrawn
+            findViewById<View>(R.id.tvBrand).visibility = if (closed) View.GONE else View.VISIBLE
+            val header = (content as ViewGroup).getChildAt(0)
+            val reserve = if (card.cancelled && card.withdrawn) 140 else if (closed) 76 else 0
+            header.setPaddingRelative(0, 0, (reserve * resources.displayMetrics.density).toInt(), 0)
             content.background = GradientDrawable(
                 GradientDrawable.Orientation.TL_BR, intArrayOf(Color.parseColor(palette.start), Color.parseColor(palette.end))
             ).apply { cornerRadius = 16f * resources.displayMetrics.density }
